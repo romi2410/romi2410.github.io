@@ -1,0 +1,6 @@
+title: "Romi Padam"
+description: "Principal Product Manager | Engineering DNA × Strategic Execution | AI Product Innovation"
+theme: minima
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
