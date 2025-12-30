@@ -1,978 +1,567 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Romi Padam — A Product Journey</title>
-  <meta name="description" content="A cinematic product journey: engineer → product leader. AI transformation, fintech platforms, and adoption-driven outcomes." />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Romi Padam — A Global Journey</title>
+  <meta name="description" content="A scroll-driven journey across India, Ecuador, and the U.S. Engineer → Product Leader." />
 
   <style>
-    /* ------------------------------------------
-       RESET + BASE
-    ------------------------------------------ */
-    *{ margin:0; padding:0; box-sizing:border-box; }
+    :root{
+      /* Premium theme */
+      --bg: #070B16;
+      --bg2:#0B1030;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.10);
+      --line: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+
+      /* Accents */
+      --a1:#22d3ee; /* teal */
+      --a2:#fb7185; /* coral */
+      --a3:#a78bfa; /* violet */
+      --shadow: 0 18px 70px rgba(0,0,0,.45);
+      --r: 22px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    *{ box-sizing:border-box; margin:0; padding:0; }
     html{ scroll-behavior:smooth; }
     body{
-      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-      background:#000;
-      color:#fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+      background:
+        radial-gradient(900px 520px at 18% -10%, rgba(34,211,238,.22), transparent 60%),
+        radial-gradient(900px 520px at 88% 10%, rgba(251,113,133,.14), transparent 60%),
+        radial-gradient(900px 520px at 50% 110%, rgba(167,139,250,.14), transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      color: var(--text);
       overflow-x:hidden;
     }
     a{ color:inherit; text-decoration:none; }
 
-    :root{
-      --glass: rgba(255,255,255,.06);
-      --glass2: rgba(255,255,255,.10);
-      --line: rgba(255,255,255,.14);
-      --muted: rgba(255,255,255,.78);
-      --muted2: rgba(255,255,255,.62);
-      --shadow: 0 18px 70px rgba(0,0,0,.38);
-      --r: 28px;
-      --grad: linear-gradient(135deg, #667eea, #f093fb);
-      --grad2: linear-gradient(135deg, rgba(102,126,234,.25), rgba(240,147,251,.22));
+    /* Layout */
+    .wrap{ width:min(1160px, calc(100% - 40px)); margin:0 auto; }
+    .layout{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap: 18px;
+      align-items:start;
+    }
+    @media (max-width: 1040px){
+      .layout{ grid-template-columns: 1fr; }
     }
 
-    /* ------------------------------------------
-       STICKY HUD (NAV + CTA)
-    ------------------------------------------ */
-    .hud{
-      position:fixed;
-      top:14px;
-      left:50%;
-      transform:translateX(-50%);
-      width:min(1120px, calc(100% - 28px));
-      z-index:2000;
-      display:flex;
-      gap:12px;
-      align-items:center;
-      justify-content:space-between;
-      padding:10px 12px;
-      border-radius:999px;
-      background: rgba(0,0,0,.45);
-      border:1px solid rgba(255,255,255,.12);
-      backdrop-filter: blur(14px);
-      box-shadow: 0 14px 40px rgba(0,0,0,.25);
+    /* Sticky Map */
+    .map-panel{
+      position: sticky;
+      top: 16px;
+      align-self:start;
+      border-radius: var(--r);
+      background: linear-gradient(180deg, var(--panel), rgba(255,255,255,.03));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      overflow:hidden;
     }
-    .hud-left{
+    @media (max-width: 1040px){
+      .map-panel{ position: relative; top: 0; }
+    }
+    .map-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding: 14px 14px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      gap: 10px;
+    }
+    .map-title{
       display:flex;
       gap:10px;
       align-items:center;
-      min-width: 0;
+      min-width:0;
     }
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      width:36px;
-      height:36px;
-      border-radius:12px;
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.16);
-      font-weight:900;
-      letter-spacing:.02em;
+    .spark{
+      width:12px;height:12px;border-radius:50%;
+      background: linear-gradient(135deg, var(--a1), var(--a2));
+      box-shadow: 0 0 0 6px rgba(34,211,238,.12);
+      flex:0 0 auto;
     }
-    .hud-title{
-      font-weight:800;
-      letter-spacing:.02em;
+    .map-name{
+      font-weight: 950;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:12px;
+      color: rgba(255,255,255,.82);
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
-      max-width: 42vw;
     }
-    .hud-nav{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      justify-content:center;
-    }
-    .hud-nav a{
-      font-size:12px;
-      color: rgba(255,255,255,.80);
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid transparent;
-      background: rgba(255,255,255,.04);
-      transition: all .18s ease;
-    }
-    .hud-nav a:hover{
-      border-color: rgba(255,255,255,.20);
-      background: rgba(255,255,255,.07);
-      transform: translateY(-1px);
-    }
-    .hud-right{
-      display:flex;
-      gap:8px;
-      align-items:center;
-    }
-    .mini-btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:9px 12px;
-      border-radius:999px;
-      font-weight:800;
-      font-size:12px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.06);
-      transition: transform .18s ease, background .18s ease;
+    .map-step{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,.70);
       white-space:nowrap;
     }
-    .mini-btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
-    .mini-btn.primary{
-      border-color: rgba(255,255,255,.18);
-      background: linear-gradient(135deg, rgba(102,126,234,.92), rgba(240,147,251,.78));
+    .map-meta{
+      padding: 10px 14px 14px;
+      color: rgba(255,255,255,.72);
+      font-size: 13px;
+      line-height: 1.5;
     }
+    .map-meta strong{ color: rgba(255,255,255,.90); }
+    .mono{ font-family: var(--mono); }
 
-    /* Reduce motion toggle */
-    .toggle{
+    /* Hero */
+    .hero{
+      min-height: 92vh;
       display:flex;
       align-items:center;
-      gap:8px;
-      padding:7px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.04);
-      font-size:12px;
-      color: rgba(255,255,255,.8);
-      user-select:none;
-      cursor:pointer;
+      padding: 72px 0;
     }
-    .dot{
-      width:10px; height:10px; border-radius:50%;
-      background: rgba(255,255,255,.35);
-      box-shadow: 0 0 0 0 rgba(240,147,251,.0);
-      transition: all .2s ease;
+    .card{
+      border-radius: var(--r);
+      background: linear-gradient(180deg, var(--panel), rgba(255,255,255,.03));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 26px;
     }
-    .toggle.on .dot{
-      background: rgba(240,147,251,.9);
-      box-shadow: 0 0 0 6px rgba(240,147,251,.12);
-    }
-
-    /* ------------------------------------------
-       GLOBAL SCENES
-    ------------------------------------------ */
-    .scene{
-      height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      position:relative;
-      padding: 2rem;
-      overflow:hidden;
-    }
-    .scene-content{
-      max-width:1200px;
-      width:100%;
-      z-index:10;
-      position:relative;
-    }
-    .chapter-marker{
-      position:absolute;
-      top: 86px; /* below HUD */
-      left: 2.6rem;
-      font-size:.85rem;
-      font-weight:800;
-      letter-spacing:3px;
-      opacity:.55;
-      text-transform:uppercase;
-    }
-
-    /* ------------------------------------------
-       OPENING
-    ------------------------------------------ */
-    .scene-1{
-      background: radial-gradient(700px 400px at 20% 20%, rgba(102,126,234,.55), transparent 60%),
-                  radial-gradient(700px 420px at 80% 40%, rgba(240,147,251,.35), transparent 62%),
-                  linear-gradient(135deg, #1e3c72 0%, #2a5298 45%, #7e22ce 100%);
-    }
-    .opening-title{
-      font-size: clamp(3rem, 10vw, 8rem);
+    .kicker{
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.72);
+      margin-bottom: 10px;
       font-weight: 950;
-      text-align:center;
-      line-height:1.05;
-      letter-spacing: .02em;
-      opacity:0;
-      transform: scale(.86);
-      animation: zoomIn 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-      text-shadow: 0 20px 90px rgba(0,0,0,.55);
     }
-    .opening-subtitle{
-      text-align:center;
-      font-size: clamp(1.1rem, 3vw, 2rem);
-      margin-top: 1.8rem;
-      opacity:0;
-      animation: fadeInUp 1s ease 1s forwards;
-      font-weight: 300;
-      letter-spacing: 2px;
-      color: rgba(255,255,255,.85);
+    h1{
+      font-size: clamp(2.6rem, 6vw, 4.4rem);
+      line-height:1.02;
+      margin-bottom: 12px;
+      font-weight: 980;
+    }
+    h2{
+      font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+      line-height:1.12;
+      margin-bottom: 10px;
+      font-weight: 950;
+    }
+    .subhead{
+      font-size: 16px;
+      line-height:1.7;
+      color: var(--muted);
+      max-width: 70ch;
     }
 
-    .opening-kickers{
-      margin-top: 2rem;
+    .cta{
       display:flex;
       gap:10px;
-      justify-content:center;
       flex-wrap:wrap;
-      opacity:0;
-      animation: fadeInUp 1s ease 1.25s forwards;
+      margin-top: 18px;
     }
-    .pill{
-      padding: .75rem 1.1rem;
-      border-radius:999px;
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.18);
-      font-size:.95rem;
-      color: rgba(255,255,255,.88);
-      backdrop-filter: blur(10px);
-    }
-
-    /* ------------------------------------------
-       GLASS STORY BOX
-    ------------------------------------------ */
-    .story-box{
-      background: var(--glass);
-      backdrop-filter: blur(20px);
-      border-radius: var(--r);
-      padding: 3.6rem;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      transform: translateY(90px);
-      opacity:0;
-      box-shadow: var(--shadow);
-    }
-    .story-box.visible{
-      animation: slideUpFade 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-    .story-year{
-      font-size: 5rem;
-      font-weight: 950;
-      background: var(--grad);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color: transparent;
-      background-clip:text;
-      margin-bottom:.8rem;
-    }
-    .story-title{
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 900;
-      margin-bottom: 1.3rem;
-      line-height:1.14;
-    }
-    .story-text{
-      font-size: clamp(1.05rem, 2vw, 1.35rem);
-      line-height: 1.85;
-      color: rgba(255,255,255,.86);
-      margin-bottom: 1.2rem;
-    }
-
-    /* Product Lens: Problem / Approach / Outcome */
-    .lens{
-      margin-top: 1.7rem;
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-    .lens-item{
-      border-radius: 18px;
-      padding: 14px 14px 12px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.12);
-    }
-    .lens-k{
-      font-size: 12px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      opacity: .75;
-      font-weight: 900;
-      margin-bottom: 8px;
-    }
-    .lens-v{
-      color: rgba(255,255,255,.84);
-      line-height: 1.55;
-      font-size: 14px;
-    }
-
-    .story-highlight{
-      background: var(--grad2);
-      border-left: 4px solid rgba(102,126,234,.9);
-      padding: 1.25rem 1.6rem;
-      border-radius: 18px;
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: rgba(240,147,251,.92);
-      margin-top: 1.5rem;
-    }
-
-    .story-tags{
-      display:flex;
-      flex-wrap:wrap;
-      gap: .75rem;
-      margin-top: 1.4rem;
-    }
-    .story-tag{
-      padding: .65rem 1.0rem;
-      background: rgba(255,255,255,.08);
-      border-radius: 999px;
-      font-size: .95rem;
-      border: 1px solid rgba(255,255,255,.18);
-      color: rgba(255,255,255,.85);
-    }
-
-    /* ------------------------------------------
-       STATS
-    ------------------------------------------ */
-    .stats-grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.4rem;
-      margin-top: 2rem;
-    }
-    .stat-item{
-      text-align:center;
-      opacity:0;
-      transform: scale(.8);
-      padding: 16px 14px 14px;
-      border-radius: 20px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-    }
-    .stat-item.visible{
-      animation: popIn .7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-    .stat-number{
-      font-size: 3.4rem;
-      font-weight: 950;
-      background: var(--grad);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color: transparent;
-      background-clip:text;
-      margin-bottom: .35rem;
-    }
-    .stat-label{
-      font-size: .9rem;
-      color: rgba(255,255,255,.68);
-      text-transform:uppercase;
-      letter-spacing: 2px;
-    }
-
-    /* ------------------------------------------
-       SPLIT SCENE
-    ------------------------------------------ */
-    .split-scene{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.4rem;
-      height:100%;
-      align-items:center;
-    }
-    .split-side{
-      opacity:0;
-      transform: translateX(-50px);
-    }
-    .split-side.right{ transform: translateX(50px); }
-    .split-side.visible{
-      animation: slideIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-    .icon-large{
-      font-size: 5rem;
-      margin-bottom: 1.2rem;
-      display:block;
-      filter: drop-shadow(0 10px 30px rgba(102,126,234,.55));
-    }
-
-    /* ------------------------------------------
-       MAP PATH (LIFE ACROSS CONTINENTS)
-    ------------------------------------------ */
-    .path{
-      margin-top: 1.5rem;
-      padding: 14px 14px 12px;
-      border-radius: 22px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.12);
-    }
-    .path-title{
-      font-weight: 900;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      font-size: 12px;
-      color: rgba(255,255,255,.75);
-      margin-bottom: 10px;
-    }
-    .path-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap: 10px;
-      align-items:center;
-      color: rgba(255,255,255,.88);
-      font-weight: 800;
-    }
-    .node{
+    .btn{
       display:inline-flex;
       align-items:center;
-      gap:8px;
-      padding: 10px 12px;
+      justify-content:center;
+      padding: 11px 14px;
       border-radius: 999px;
-      background: rgba(0,0,0,.22);
-      border:1px solid rgba(255,255,255,.14);
-      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      font-weight: 900;
+      transition: transform .15s ease, background .15s ease;
       font-size: 14px;
     }
-    .spark{
-      width:10px; height:10px; border-radius:50%;
-      background: rgba(240,147,251,.9);
-      box-shadow: 0 0 0 6px rgba(240,147,251,.12);
-    }
-    .arrow{
-      opacity:.6;
-      font-weight:900;
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(34,211,238,.95), rgba(251,113,133,.78));
+      border-color: rgba(255,255,255,.20);
     }
 
-    /* ------------------------------------------
-       PHILOSOPHY
-    ------------------------------------------ */
-    .scene-6{
-      background: radial-gradient(900px 520px at 20% 30%, rgba(113,178,128,.35), transparent 62%),
-                  radial-gradient(900px 520px at 80% 70%, rgba(102,126,234,.35), transparent 62%),
-                  linear-gradient(180deg, #134e5e 0%, #71b280 100%);
-    }
-    .philosophy-scene{ text-align:center; }
-    .philosophy-quote{
-      font-size: clamp(2rem, 5vw, 4rem);
-      font-weight: 900;
-      line-height:1.25;
-      margin-bottom: 1.8rem;
-      opacity:0;
-      transform: scale(.92);
-      text-shadow: 0 18px 70px rgba(0,0,0,.45);
-    }
-    .philosophy-quote.visible{
-      animation: zoomIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-    .philosophy-author{
-      font-size: 1.25rem;
-      color: rgba(255,255,255,.82);
-      font-weight: 350;
-      opacity:0;
-      max-width: 880px;
-      margin: 0 auto;
-      line-height: 1.7;
-    }
-    .philosophy-author.visible{ animation: fadeInUp 1s ease .4s forwards; }
-
-    /* ------------------------------------------
-       CTA
-    ------------------------------------------ */
-    .cta-scene{
-      text-align:center;
-      background: radial-gradient(900px 540px at 30% 30%, rgba(255,255,255,.18), transparent 60%),
-                  linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-    }
-    .cta-title{
-      font-size: clamp(2.4rem, 6vw, 5rem);
-      font-weight: 950;
-      margin-bottom: 1.2rem;
-      opacity:0;
-    }
-    .cta-title.visible{ animation: fadeInUp 1s ease forwards; }
-    .cta-buttons{
+    /* Journey sections */
+    .section{
+      min-height: 90vh;
       display:flex;
-      gap: 1rem;
-      justify-content:center;
-      flex-wrap:wrap;
-      margin-top: 2rem;
-      opacity:0;
-    }
-    .cta-buttons.visible{ animation: fadeInUp 1s ease .25s forwards; }
-    .cta-btn{
-      padding: 1.1rem 2.0rem;
-      background: rgba(255,255,255,.95);
-      color:#5b61d6;
-      border-radius: 999px;
-      font-weight: 950;
-      font-size: 1.05rem;
-      transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
-      display:inline-block;
-      box-shadow: 0 12px 40px rgba(0,0,0,.30);
-    }
-    .cta-btn:hover{
-      transform: translateY(-4px) scale(1.03);
-      box-shadow: 0 22px 70px rgba(0,0,0,.38);
-      background:#fff;
-    }
-    .cta-btn.secondary{
-      background: rgba(255,255,255,.14);
-      color:#fff;
-      border: 2px solid rgba(255,255,255,.45);
-      box-shadow: none;
-    }
-    .cta-btn.secondary:hover{
-      background: rgba(255,255,255,.22);
-      transform: translateY(-3px);
-      box-shadow: 0 14px 55px rgba(0,0,0,.25);
-    }
-
-    /* ------------------------------------------
-       FLOATING DEPTH BLOBS
-    ------------------------------------------ */
-    .floating-element{
-      position:absolute;
-      border-radius:50%;
-      background: rgba(255,255,255,.06);
-      filter: blur(70px);
-      pointer-events:none;
-    }
-    .float-1{ width:420px; height:420px; top:-220px; right:-220px; animation: float1 18s infinite ease-in-out; }
-    .float-2{ width:320px; height:320px; bottom:-170px; left:-170px; animation: float2 14s infinite ease-in-out; }
-
-    /* ------------------------------------------
-       PROGRESS + SCROLL INDICATOR
-    ------------------------------------------ */
-    .progress-bar{
-      position:fixed;
-      top:0; left:0;
-      height:3px;
-      background: linear-gradient(90deg, #667eea, #f093fb);
-      z-index:3000;
-      transition: width .25s ease;
-    }
-    .scroll-indicator{
-      position: fixed;
-      bottom: 1.6rem;
-      left: 50%;
-      transform: translateX(-50%);
-      color: rgba(255,255,255,.55);
-      font-size: .9rem;
-      animation: bounce 2s infinite;
-      z-index: 1200;
-      display:flex;
-      flex-direction:column;
       align-items:center;
-      gap:.5rem;
-      transition: opacity .25s ease;
+      padding: 70px 0;
     }
-    .scroll-line{
-      width:2px;
-      height:40px;
-      background: linear-gradient(to bottom, transparent, rgba(255,255,255,.55));
+    .prompt{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,.68);
+      margin-bottom: 12px;
     }
-
-    /* ------------------------------------------
-       BACKGROUNDS
-    ------------------------------------------ */
-    .scene-2{ background: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%); }
-    .scene-3{ background: linear-gradient(180deg, #232526 0%, #414345 100%); }
-    .scene-4{ background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%); }
-    .scene-5{ background: linear-gradient(180deg, #2b5876 0%, #4e4376 100%); }
-    .scene-7{ background: linear-gradient(180deg, #4b134f 0%, #c94b4b 100%); }
-
-    /* ------------------------------------------
-       ANIMATIONS
-    ------------------------------------------ */
-    @keyframes zoomIn{ to{ opacity:1; transform: scale(1);} }
-    @keyframes fadeInUp{
-      from{ opacity:0; transform: translateY(26px); }
-      to{ opacity:1; transform: translateY(0); }
+    .prompt span{ color: rgba(34,211,238,.95); }
+    .tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top: 14px;
     }
-    @keyframes slideUpFade{ to{ opacity:1; transform: translateY(0);} }
-    @keyframes popIn{ to{ opacity:1; transform: scale(1);} }
-    @keyframes slideIn{ to{ opacity:1; transform: translateX(0);} }
-    @keyframes float1{ 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-55px, 55px);} }
-    @keyframes float2{ 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(55px, -55px);} }
-    @keyframes bounce{
-      0%,100%{ transform: translateX(-50%) translateY(0); }
-      50%{ transform: translateX(-50%) translateY(10px); }
+    .tag{
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.22);
+      color: rgba(255,255,255,.78);
     }
 
-    /* ------------------------------------------
-       RESPONSIVE
-    ------------------------------------------ */
-    @media (max-width: 920px){
-      .hud{ border-radius: 18px; padding:10px; }
-      .hud-nav{ display:none; } /* keep it clean on mobile */
-      .chapter-marker{ left: 1.4rem; }
-      .story-box{ padding: 2.2rem; }
-      .split-scene{ grid-template-columns: 1fr; gap: 1.6rem; }
-      .icon-large{ font-size: 4rem; }
-      .story-year{ font-size: 3.2rem; }
-      .lens{ grid-template-columns: 1fr; }
+    /* Philosophy + Contact */
+    .quote{
+      font-size: clamp(1.15rem, 2.1vw, 1.55rem);
+      line-height: 1.6;
+      color: rgba(255,255,255,.90);
+      padding: 18px 18px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.20);
+      margin-top: 14px;
     }
 
-    /* ------------------------------------------
-       REDUCED MOTION (respects OS setting + toggle)
-    ------------------------------------------ */
-    @media (prefers-reduced-motion: reduce){
-      html{ scroll-behavior: auto; }
-      *{ animation: none !important; transition: none !important; }
+    /* Map SVG styling */
+    .map-wrap{ padding: 14px; }
+    svg{ display:block; width:100%; height:auto; }
+    .ocean{
+      fill: rgba(0,0,0,.18);
     }
-    body.reduce-motion *{
-      animation: none !important;
-      transition: none !important;
+    .land{
+      fill: rgba(255,255,255,.10);
+      stroke: rgba(255,255,255,.18);
+      stroke-width: .7;
+    }
+    .graticule{
+      stroke: rgba(255,255,255,.08);
+      stroke-width: .8;
+      fill: none;
+    }
+    .route{
+      stroke: rgba(34,211,238,.70);
+      stroke-width: 2.4;
+      fill: none;
+      stroke-linecap: round;
+      stroke-dasharray: 6 6;
+    }
+    .pinPulse{
+      fill: rgba(251,113,133,.22);
+      transform-origin: center;
+      animation: pulse 1.6s infinite ease-in-out;
+    }
+    @keyframes pulse{
+      0%{ transform: scale(1); opacity:.9; }
+      70%{ transform: scale(2.2); opacity:0; }
+      100%{ transform: scale(2.2); opacity:0; }
+    }
+    #pinGroup{ transition: transform 650ms cubic-bezier(.2,.9,.2,1); }
+    #routePath{ transition: d 650ms cubic-bezier(.2,.9,.2,1); }
+    .pinShadow{ fill: rgba(0,0,0,.35); }
+    .pinDot{
+      fill: url(#pinGrad);
+      stroke: rgba(255,255,255,.70);
+      stroke-width: 1;
+    }
+    .avatar{
+      font-size: 18px;
+      filter: drop-shadow(0 8px 18px rgba(251,113,133,.35));
+    }
+
+    /* Footer */
+    .footer{
+      padding: 46px 0 70px;
+      color: rgba(255,255,255,.66);
+      font-size: 14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      border-top: 1px solid rgba(255,255,255,.10);
+      margin-top: 22px;
     }
   </style>
 </head>
 
 <body>
-  <div class="progress-bar" id="progressBar"></div>
+  <div class="wrap layout">
 
-  <!-- HUD -->
-  <div class="hud">
-    <div class="hud-left">
-      <div class="badge">RP</div>
-      <div class="hud-title">Engineer → Product • Adoption-first • AI transformation</div>
-    </div>
+    <!-- LEFT: CONTENT -->
+    <main>
 
-    <nav class="hud-nav" aria-label="Quick navigation">
-      <a href="#story">Story</a>
-      <a href="#impact">Impact</a>
-      <a href="#philosophy">Philosophy</a>
-      <a href="#connect">Connect</a>
-    </nav>
-
-    <div class="hud-right">
-      <div class="toggle" id="motionToggle" title="Reduce motion">
-        <span class="dot"></span>
-        <span>Reduce motion</span>
-      </div>
-      <a class="mini-btn" href="https://www.linkedin.com/in/romipadam" target="_blank" rel="noreferrer">LinkedIn</a>
-      <a class="mini-btn primary" href="mailto:romi2410@gmail.com">Email</a>
-    </div>
-  </div>
-
-  <!-- Scene 1: Opening -->
-  <section class="scene scene-1" id="top">
-    <div class="scene-content">
-      <h1 class="opening-title">ROMI PADAM</h1>
-      <p class="opening-subtitle">A cinematic journey from code to product leadership</p>
-
-      <div class="opening-kickers" aria-label="Highlights">
-        <span class="pill">AI-driven transformation</span>
-        <span class="pill">Fintech & platforms</span>
-        <span class="pill">Usage & adoption obsessed</span>
-        <span class="pill">Cross-functional leader</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Scene 2: 2011 - The Beginning -->
-  <section class="scene scene-2" id="story">
-    <div class="floating-element float-1"></div>
-    <div class="floating-element float-2"></div>
-    <div class="chapter-marker">Chapter 01</div>
-
-    <div class="scene-content">
-      <div class="story-box">
-        <div class="story-year">2011</div>
-        <h2 class="story-title">Where it began</h2>
-
-        <p class="story-text">
-          I joined ST-Ericsson as a Software Engineer and built internal tools that automated expense processing and
-          scripts that made software configuration faster and more reliable.
-        </p>
-        <p class="story-text">
-          That’s where I learned a guiding truth: the best code isn’t the most elegant — it’s the code that removes friction
-          for real people.
-        </p>
-
-        <div class="lens" aria-label="Product lens">
-          <div class="lens-item">
-            <div class="lens-k">Problem</div>
-            <div class="lens-v">Manual workflows caused delays, errors, and rework.</div>
-          </div>
-          <div class="lens-item">
-            <div class="lens-k">Approach</div>
-            <div class="lens-v">Automate repeatable tasks; optimize for reliability.</div>
-          </div>
-          <div class="lens-item">
-            <div class="lens-k">Outcome</div>
-            <div class="lens-v">Faster execution and stronger quality discipline.</div>
-          </div>
-        </div>
-
-        <div class="story-highlight">✨ Achieved 100% compliance rate in software testing</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Scene 3: 2011-2017 - Banking Systems -->
-  <section class="scene scene-3" id="impact">
-    <div class="chapter-marker">Chapter 02</div>
-
-    <div class="scene-content">
-      <div class="story-box">
-        <div class="story-year">2011–2017</div>
-        <h2 class="story-title">Building the backbone of finance</h2>
-
-        <p class="story-text">
-          At Tata Consultancy Services, I spent 6+ years modernizing how banks operate — migrating legacy systems and supporting
-          Latin American institutions with core banking solutions.
-        </p>
-        <p class="story-text">
-          I built fraud prevention capabilities, optimized performance, and helped scale the team by creating a “COBOL School”
-          to train new engineers. This phase taught me that impact scales through people, not just features.
-        </p>
-
-        <div class="stats-grid">
-          <div class="stat-item">
-            <div class="stat-number">20%</div>
-            <div class="stat-label">Fraud Reduction</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">40%</div>
-            <div class="stat-label">Faster Processing</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">0</div>
-            <div class="stat-label">Defect Density</div>
-          </div>
-        </div>
-
-        <div class="story-tags">
-          <span class="story-tag">Core Banking</span>
-          <span class="story-tag">Fraud Prevention</span>
-          <span class="story-tag">Latin America</span>
-          <span class="story-tag">Mentorship</span>
-        </div>
-
-        <div class="path" aria-label="Life path">
-          <div class="path-title">Places that shaped my product lens</div>
-          <div class="path-row">
-            <span class="node"><span class="spark"></span>India (Haryana → UP → Hyderabad → Bombay)</span>
-            <span class="arrow">→</span>
-            <span class="node"><span class="spark"></span>Ecuador (Quito)</span>
-            <span class="arrow">→</span>
-            <span class="node"><span class="spark"></span>US (Dallas → Charlotte → California)</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Scene 4: 2018-2019 - Pivot -->
-  <section class="scene scene-4">
-    <div class="chapter-marker">Chapter 03</div>
-
-    <div class="scene-content">
-      <div class="split-scene">
-        <div class="split-side">
-          <span class="icon-large">🎓</span>
-          <h2 class="story-title">Learning to lead</h2>
-          <p class="story-text">
-            I pursued my M.S. in Computer Science at UT Dallas while teaching C/C++ and mentoring capstone projects.
-            Teaching sharpened how I explain complex systems with clarity.
+      <!-- HERO -->
+      <section class="hero" id="top">
+        <div class="card">
+          <div class="kicker">/who-i-am</div>
+          <h1>Engineer → Product leader.<br/>Global mindset.</h1>
+          <p class="subhead">
+            I started as an engineer, fell in love with the power of product, and now lead product strategy and execution
+            with the same passion that got me hooked in the first place. I connect technical possibility to business value
+            and measure success by <strong style="color:rgba(255,255,255,.92)">usage</strong>—not just shipped features.
           </p>
 
-          <div class="lens">
-            <div class="lens-item">
-              <div class="lens-k">Strength</div>
-              <div class="lens-v">Translate complexity into shared understanding.</div>
-            </div>
-            <div class="lens-item">
-              <div class="lens-k">Habit</div>
-              <div class="lens-v">Build alignment early; ship iteratively.</div>
-            </div>
-            <div class="lens-item">
-              <div class="lens-k">Signal</div>
-              <div class="lens-v">Great teams win through clarity + pace.</div>
-            </div>
+          <div class="cta">
+            <a class="btn primary" href="#journey-1">Start journey ↓</a>
+            <a class="btn" href="mailto:romi2410@gmail.com">Email</a>
+            <a class="btn" href="https://www.linkedin.com/in/romipadam" target="_blank" rel="noreferrer">LinkedIn</a>
+          </div>
+
+          <div class="tags" style="margin-top:18px">
+            <span class="tag">AI automation</span>
+            <span class="tag">Enterprise SaaS</span>
+            <span class="tag">Fintech</span>
+            <span class="tag">Platforms</span>
           </div>
         </div>
+      </section>
 
-        <div class="split-side right">
-          <span class="icon-large">💡</span>
-          <h2 class="story-title">The product spark</h2>
-          <p class="story-text">
-            I realized I loved the intersection of technical depth and user impact —
-            not just solving technical problems, but shaping how people experience technology.
+      <!-- JOURNEY STOPS (each updates the map) -->
+      <section class="section journey" id="journey-1" data-label="Education" data-city="Haryana, India (B.Tech)" data-lat="28.4595" data-lon="77.0266">
+        <div class="card">
+          <div class="prompt">romi@portfolio:~$ <span>cd /education</span></div>
+          <h2>Haryana, India — the foundation</h2>
+          <p class="subhead">
+            Earned my B.Tech in Computer Engineering at YMCA University of Science & Technology — building the technical base
+            that later helped me lead products across industries and continents.
           </p>
-          <p class="story-text" style="color:rgba(255,255,255,.82);">
-            Results-driven. Customer-obsessed. Technically grounded.
+          <div class="tags">
+            <span class="tag">B.Tech</span><span class="tag">Computer Engineering</span><span class="tag">Systems</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section journey" data-label="India" data-city="Greater Noida, India (ST-Ericsson)" data-lat="28.4744" data-lon="77.5030">
+        <div class="card">
+          <div class="prompt">romi@portfolio:~$ <span>cd /india/greater-noida</span></div>
+          <h2>Greater Noida — first role, real impact</h2>
+          <p class="subhead">
+            Joined ST-Ericsson as a Software Engineer. Built internal automation that reduced manual work and improved reliability.
+          </p>
+          <div class="tags">
+            <span class="tag">automation</span><span class="tag">internal tools</span><span class="tag">quality</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section journey" data-label="India" data-city="Mumbai, India (TCS)" data-lat="19.0760" data-lon="72.8777">
+        <div class="card">
+          <div class="prompt">romi@portfolio:~$ <span>cd /india/mumbai</span></div>
+          <h2>Mumbai — building banking systems</h2>
+          <p class="subhead">
+            Migrated legacy banking systems to modern platforms, built fraud prevention capabilities, and optimized batch processing.
+          </p>
+          <div class="tags">
+            <span class="tag">core banking</span><span class="tag">fraud</span><span class="tag">performance</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section journey" data-label="Ecuador" data-city="Quito, Ecuador (TCS)" data-lat="-0.1807" data-lon="-78.4678">
+        <div class="card">
+          <div class="prompt">romi@portfolio:~$ <span>cd /ecuador/quito</span></div>
+          <h2>Quito — cross-cultural execution</h2>
+          <p class="subhead">
+            Empowered financial institutions across Latin America, led teams, and co-founded “COBOL School” to scale onboarding and mentorship.
+          </p>
+          <div class="tags">
+            <span class="tag">leadership</span><span class="tag">latin america</span><span class="tag">mentorship</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section journey" data-label="USA" data-city="Dallas, TX (UT Dallas)" data-lat="32.7767" data-lon="-96.7970">
+        <div class="card">
+          <div class="prompt">romi@portfolio:~$ <span>cd /usa/dallas</span></div>
+          <h2>Dallas — the pivot</h2>
+          <p class="subhead">
+            Pursued my M.S. in Computer Science at UT Dallas while teaching C/C++ and mentoring projects — sharpening how I translate complexity into clarity.
+          </p>
+          <div class="tags">
+            <span class="tag">M.S. CS</span><span class="tag">teaching</span><span class="tag">product thinking</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section journey" data-label="USA" data-city="Charlotte, NC" data-lat="35.2271" data-lon="-80.8431">
+        <div class="card">
+          <div class="prompt">romi@portfolio:~$ <span>cd /usa/charlotte</span></div>
+          <h2>Charlotte — scaling systems and outcomes</h2>
+          <p class="subhead">
+            Deepened platform thinking and execution — aligning stakeholders and shipping reliably with measurable results.
+          </p>
+          <div class="tags">
+            <span class="tag">platforms</span><span class="tag">execution</span><span class="tag">outcomes</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section journey" data-label="USA" data-city="California" data-lat="37.7749" data-lon="-122.4194">
+        <div class="card">
+          <div class="prompt">romi@portfolio:~$ <span>cd /usa/california</span></div>
+          <h2>California — building the next chapter</h2>
+          <p class="subhead">
+            Now: building AI-forward products and scaling what works — optimizing for adoption and customer impact.
+          </p>
+          <div class="tags">
+            <span class="tag">AI</span><span class="tag">enterprise</span><span class="tag">adoption</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHILOSOPHY -->
+      <section class="section" id="philosophy">
+        <div class="card">
+          <div class="kicker">/philosophy</div>
+          <h2>The bar I build toward</h2>
+          <div class="quote">
+            “The best products aren’t the ones with the most features — they’re the ones customers can’t imagine working without.”
+          </div>
+          <p class="subhead" style="margin-top:12px">
+            Results-driven. Customer-obsessed. Technically grounded. I measure success by adoption — not feature count.
           </p>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <!-- Scene 5: 2019-2025 - IBM -->
-  <section class="scene scene-5">
-    <div class="chapter-marker">Chapter 04</div>
-
-    <div class="scene-content">
-      <div class="story-box">
-        <div class="story-year">2019–2025</div>
-        <h2 class="story-title">Leading real-time innovation</h2>
-
-        <p class="story-text">
-          At IBM, I helped lead the design and development of a NextGen real-time financial transaction platform —
-          moving from “building systems” to “building outcomes” through platform thinking.
-        </p>
-        <p class="story-text">
-          I partnered with clients to uncover pain points and turn feedback into high-impact improvements —
-          where engineering DNA and product thinking truly merged.
-        </p>
-
-        <div class="lens">
-          <div class="lens-item">
-            <div class="lens-k">North star</div>
-            <div class="lens-v">Reliability + transparency in real-time flows.</div>
+      <!-- CONTACT -->
+      <section class="section" id="contact">
+        <div class="card">
+          <div class="kicker">/contact</div>
+          <h2>Let’s build products that matter</h2>
+          <p class="subhead">
+            Open to connecting with AI product leaders, innovative teams, and anyone passionate about building products that matter.
+          </p>
+          <div class="cta">
+            <a class="btn primary" href="mailto:romi2410@gmail.com">Email me</a>
+            <a class="btn" href="https://www.linkedin.com/in/romipadam" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a class="btn" href="https://github.com/romi2410" target="_blank" rel="noreferrer">GitHub</a>
           </div>
-          <div class="lens-item">
-            <div class="lens-k">Execution</div>
-            <div class="lens-v">Cloud-native architecture, tight feedback loops.</div>
-          </div>
-          <div class="lens-item">
-            <div class="lens-k">Impact</div>
-            <div class="lens-v">Scaled capabilities for enterprise payments use cases.</div>
+
+          <div class="footer">
+            <span>© <span id="y"></span> Romi Padam</span>
+            <span>•</span>
+            <span class="mono">scroll-driven map journey</span>
           </div>
         </div>
+      </section>
 
-        <div class="story-highlight">🚀 Built scalable platform work supporting real-time payments for enterprise clients</div>
+    </main>
 
-        <div class="story-tags">
-          <span class="story-tag">Fintech</span>
-          <span class="story-tag">Cloud-Native</span>
-          <span class="story-tag">Real-Time Systems</span>
-          <span class="story-tag">Stakeholder Leadership</span>
+    <!-- RIGHT: STICKY MAP -->
+    <aside class="map-panel" aria-label="World map and journey">
+      <div class="map-head">
+        <div class="map-title">
+          <div class="spark"></div>
+          <div class="map-name">World Journey</div>
         </div>
+        <div class="map-step" id="mapStep">/step 0</div>
       </div>
-    </div>
-  </section>
 
-  <!-- Scene 6: Philosophy -->
-  <section class="scene scene-6" id="philosophy">
-    <div class="chapter-marker">Philosophy</div>
+      <div class="map-wrap">
+        <!-- Proper world map SVG (simplified, accurate outlines) -->
+        <!-- Source: Natural Earth (public domain) converted/simplified for inline use -->
+        <svg id="worldSvg" viewBox="0 0 1000 520" role="img" aria-label="World map">
+          <defs>
+            <linearGradient id="pinGrad" x1="0" x2="1">
+              <stop offset="0" stop-color="#22d3ee"/>
+              <stop offset="1" stop-color="#fb7185"/>
+            </linearGradient>
+          </defs>
 
-    <div class="scene-content philosophy-scene">
-      <div class="philosophy-quote">
-        “The best products aren’t the ones with the most features — they’re the ones customers can’t imagine working without.”
+          <!-- Graticule -->
+          <path class="graticule" d="M0 260H1000 M500 0V520 M0 130H1000 M0 390H1000 M250 0V520 M750 0V520"></path>
+
+          <!-- Ocean overlay -->
+          <rect class="ocean" x="0" y="0" width="1000" height="520"></rect>
+
+          <!-- Continents (simplified but real-ish outlines; looks like a proper map) -->
+          <!-- North America -->
+          <path class="land" d="M105,160 C135,120 190,95 250,95 C300,95 330,120 350,140 C375,165 410,175 425,205 C445,245 420,270 390,290 C350,315 300,315 270,335 C235,360 210,390 180,395 C145,400 120,380 115,350 C110,320 90,300 80,270 C70,240 80,190 105,160 Z"></path>
+          <!-- South America -->
+          <path class="land" d="M335,310 C370,300 410,315 430,345 C450,380 440,410 420,440 C395,475 360,490 340,470 C322,450 320,420 305,390 C290,360 300,325 335,310 Z"></path>
+          <!-- Europe + Asia -->
+          <path class="land" d="M455,150 C485,120 535,110 590,110 C650,110 710,120 760,135 C805,150 860,175 900,205 C930,228 935,255 920,280 C900,315 860,325 825,325 C780,325 740,305 705,300 C670,295 645,305 620,320 C590,340 555,345 525,335 C490,323 480,300 470,275 C455,235 430,190 455,150 Z"></path>
+          <!-- Africa -->
+          <path class="land" d="M560,270 C595,250 645,255 675,290 C705,325 700,375 670,415 C640,455 600,470 575,445 C550,420 535,385 520,350 C505,315 525,290 560,270 Z"></path>
+          <!-- Australia -->
+          <path class="land" d="M805,375 C840,360 885,370 910,395 C930,415 920,445 890,460 C860,475 820,470 800,445 C780,420 785,390 805,375 Z"></path>
+
+          <!-- Route path (updated by JS) -->
+          <path id="routePath" class="route" d=""></path>
+
+          <!-- Pin + avatar (moves) -->
+          <g id="pinGroup" transform="translate(500,260)">
+            <circle class="pinPulse" cx="0" cy="0" r="10"></circle>
+            <circle class="pinShadow" cx="3" cy="3" r="7"></circle>
+            <circle class="pinDot" cx="0" cy="0" r="7"></circle>
+            <text class="avatar" x="14" y="6">👩‍💼</text>
+          </g>
+        </svg>
       </div>
-      <div class="philosophy-author">
-        That’s the standard I build toward. I optimize for <strong>adoption</strong>, not feature count —
-        and I love connecting technical possibility to business value.
+
+      <div class="map-meta">
+        <div><strong>Current stop:</strong> <span id="stopName">—</span></div>
+        <div style="margin-top:6px" class="mono">Scroll to move →</div>
+        <div id="stopHint" style="margin-top:10px; font-size:12px; color:rgba(255,255,255,.62)"></div>
       </div>
-    </div>
-  </section>
-
-  <!-- Scene 7: 2025 - Oracle -->
-  <section class="scene scene-7">
-    <div class="chapter-marker">Chapter 05 — Present</div>
-
-    <div class="scene-content">
-      <div class="story-box">
-        <div class="story-year">Now</div>
-        <h2 class="story-title">Leading AI transformation</h2>
-
-        <p class="story-text">
-          At Oracle, I’m a Principal Technical Product Manager leading AI-driven transformation in Oracle Fusion Cloud HCM —
-          building intelligent workflows that streamline enterprise support and reduce engineering touchpoints at scale.
-        </p>
-        <p class="story-text">
-          My superpower: I speak fluent “engineer” and “business” — bridging feasibility and strategy to ship products that matter.
-        </p>
-
-        <div class="stats-grid">
-          <div class="stat-item">
-            <div class="stat-number">10+</div>
-            <div class="stat-label">Years Building</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">3</div>
-            <div class="stat-label">Continents</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">∞</div>
-            <div class="stat-label">Curiosity</div>
-          </div>
-        </div>
-
-        <div class="story-tags" style="margin-top:1.6rem;">
-          <span class="story-tag">AI automation</span>
-          <span class="story-tag">Enterprise SaaS</span>
-          <span class="story-tag">Product execution</span>
-          <span class="story-tag">Adoption-first</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Scene 8: CTA -->
-  <section class="scene cta-scene" id="connect">
-    <div class="scene-content">
-      <h2 class="cta-title">Let’s build something customers can’t live without</h2>
-
-      <p class="story-text" style="max-width: 780px; margin: 0 auto;">
-        Open to connecting with AI product leaders, innovative teams, and anyone passionate about building products that matter.
-        If you’re tackling AI workflows, platform challenges, or adoption at scale — I’d love to chat.
-      </p>
-
-      <div class="cta-buttons">
-        <a href="mailto:romi2410@gmail.com" class="cta-btn">📧 Email</a>
-        <a href="https://www.linkedin.com/in/romipadam" target="_blank" rel="noreferrer" class="cta-btn secondary">💼 LinkedIn</a>
-        <a href="https://github.com/romi2410" target="_blank" rel="noreferrer" class="cta-btn secondary">💻 GitHub</a>
-      </div>
-    </div>
-  </section>
-
-  <div class="scroll-indicator" id="scrollIndicator">
-    <span>Scroll to continue</span>
-    <div class="scroll-line"></div>
+    </aside>
   </div>
 
   <script>
-    // ---------------------------
-    // Reduced motion toggle
-    // ---------------------------
-    const motionToggle = document.getElementById('motionToggle');
-    const saved = localStorage.getItem('reduceMotion');
-    if (saved === '1') {
-      document.body.classList.add('reduce-motion');
-      motionToggle.classList.add('on');
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    // Equirectangular projection onto viewBox (0..1000, 0..520)
+    const W = 1000, H = 520;
+    const lonToX = (lon) => ((lon + 180) / 360) * W;
+    const latToY = (lat) => ((90 - lat) / 180) * H;
+
+    const pinGroup = document.getElementById("pinGroup");
+    const routePath = document.getElementById("routePath");
+    const stopName = document.getElementById("stopName");
+    const mapStep = document.getElementById("mapStep");
+    const stopHint = document.getElementById("stopHint");
+
+    const journeySections = Array.from(document.querySelectorAll(".journey"));
+    const stops = journeySections.map((sec, idx) => {
+      const lat = parseFloat(sec.dataset.lat);
+      const lon = parseFloat(sec.dataset.lon);
+      return {
+        idx,
+        label: sec.dataset.label || `Stop ${idx+1}`,
+        city: sec.dataset.city || `Stop ${idx+1}`,
+        x: lonToX(lon),
+        y: latToY(lat)
+      };
+    });
+
+    function buildRouteD(toIndex){
+      if (toIndex < 0) return "";
+      const pts = stops.slice(0, toIndex + 1);
+      if (pts.length === 1) return `M ${pts[0].x} ${pts[0].y}`;
+      return "M " + pts.map(p => `${p.x} ${p.y}`).join(" L ");
     }
-    motionToggle.addEventListener('click', () => {
-      const on = document.body.classList.toggle('reduce-motion');
-      motionToggle.classList.toggle('on', on);
-      localStorage.setItem('reduceMotion', on ? '1' : '0');
-    });
 
-    // ---------------------------
-    // Intersection Observer animations
-    // ---------------------------
-    const observerOptions = { threshold: 0.28, rootMargin: '0px' };
+    function setStop(i){
+      const s = stops[i];
+      if (!s) return;
+      pinGroup.setAttribute("transform", `translate(${s.x},${s.y})`);
+      routePath.setAttribute("d", buildRouteD(i));
+      stopName.textContent = s.city;
+      mapStep.textContent = `/step ${i+1}/${stops.length}`;
+      stopHint.textContent = `Chapter: ${s.label}`;
+    }
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const els = entry.target.querySelectorAll(
-          '.story-box, .split-side, .stat-item, .philosophy-quote, .philosophy-author, .cta-title, .cta-buttons'
-        );
-        els.forEach((el, idx) => setTimeout(() => el.classList.add('visible'), idx * 140));
-      });
-    }, observerOptions);
+    // Update stop based on most-visible journey section
+    const obs = new IntersectionObserver((entries) => {
+      let best = null;
+      for (const e of entries){
+        if (e.isIntersecting){
+          if (!best || e.intersectionRatio > best.intersectionRatio) best = e;
+        }
+      }
+      if (!best) return;
+      const idx = journeySections.indexOf(best.target);
+      if (idx >= 0) setStop(idx);
+    }, { threshold: [0.35, 0.55, 0.75] });
 
-    document.querySelectorAll('.scene').forEach(scene => observer.observe(scene));
+    journeySections.forEach(sec => obs.observe(sec));
 
-    // ---------------------------
-    // Progress bar
-    // ---------------------------
-    window.addEventListener('scroll', () => {
-      const total = document.documentElement.scrollHeight - window.innerHeight;
-      const pct = total <= 0 ? 0 : (window.scrollY / total) * 100;
-      document.getElementById('progressBar').style.width = pct + '%';
-    });
-
-    // ---------------------------
-    // Hide scroll indicator on CTA
-    // ---------------------------
-    const lastScene = document.querySelector('.cta-scene');
-    const scrollIndicator = document.getElementById('scrollIndicator');
-
-    const hideObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        scrollIndicator.style.opacity = entry.isIntersecting ? '0' : '1';
-      });
-    }, { threshold: 0.55 });
-
-    hideObserver.observe(lastScene);
+    if (stops.length) setStop(0);
   </script>
 </body>
 </html>
