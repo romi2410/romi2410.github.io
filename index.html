@@ -1,509 +1,716 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Romi Padam - A Product Journey</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Romi Padam — A Product Journey</title>
+  <meta name="description" content="A cinematic product journey: engineer → product leader. AI transformation, fintech platforms, and adoption-driven outcomes." />
+
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    /* ------------------------------------------
+       RESET + BASE
+    ------------------------------------------ */
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+      background:#000;
+      color:#fff;
+      overflow-x:hidden;
+    }
+    a{ color:inherit; text-decoration:none; }
+
+    :root{
+      --glass: rgba(255,255,255,.06);
+      --glass2: rgba(255,255,255,.10);
+      --line: rgba(255,255,255,.14);
+      --muted: rgba(255,255,255,.78);
+      --muted2: rgba(255,255,255,.62);
+      --shadow: 0 18px 70px rgba(0,0,0,.38);
+      --r: 28px;
+      --grad: linear-gradient(135deg, #667eea, #f093fb);
+      --grad2: linear-gradient(135deg, rgba(102,126,234,.25), rgba(240,147,251,.22));
     }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #000;
-      color: #fff;
-      overflow-x: hidden;
+    /* ------------------------------------------
+       STICKY HUD (NAV + CTA)
+    ------------------------------------------ */
+    .hud{
+      position:fixed;
+      top:14px;
+      left:50%;
+      transform:translateX(-50%);
+      width:min(1120px, calc(100% - 28px));
+      z-index:2000;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 12px;
+      border-radius:999px;
+      background: rgba(0,0,0,.45);
+      border:1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 14px 40px rgba(0,0,0,.25);
+    }
+    .hud-left{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      min-width: 0;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:36px;
+      height:36px;
+      border-radius:12px;
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.16);
+      font-weight:900;
+      letter-spacing:.02em;
+    }
+    .hud-title{
+      font-weight:800;
+      letter-spacing:.02em;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 42vw;
+    }
+    .hud-nav{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+    .hud-nav a{
+      font-size:12px;
+      color: rgba(255,255,255,.80);
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid transparent;
+      background: rgba(255,255,255,.04);
+      transition: all .18s ease;
+    }
+    .hud-nav a:hover{
+      border-color: rgba(255,255,255,.20);
+      background: rgba(255,255,255,.07);
+      transform: translateY(-1px);
+    }
+    .hud-right{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .mini-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:9px 12px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:12px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      transition: transform .18s ease, background .18s ease;
+      white-space:nowrap;
+    }
+    .mini-btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
+    .mini-btn.primary{
+      border-color: rgba(255,255,255,.18);
+      background: linear-gradient(135deg, rgba(102,126,234,.92), rgba(240,147,251,.78));
     }
 
-    .scene {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
+    /* Reduce motion toggle */
+    .toggle{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      font-size:12px;
+      color: rgba(255,255,255,.8);
+      user-select:none;
+      cursor:pointer;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:50%;
+      background: rgba(255,255,255,.35);
+      box-shadow: 0 0 0 0 rgba(240,147,251,.0);
+      transition: all .2s ease;
+    }
+    .toggle.on .dot{
+      background: rgba(240,147,251,.9);
+      box-shadow: 0 0 0 6px rgba(240,147,251,.12);
+    }
+
+    /* ------------------------------------------
+       GLOBAL SCENES
+    ------------------------------------------ */
+    .scene{
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
       padding: 2rem;
-      overflow: hidden;
+      overflow:hidden;
+    }
+    .scene-content{
+      max-width:1200px;
+      width:100%;
+      z-index:10;
+      position:relative;
+    }
+    .chapter-marker{
+      position:absolute;
+      top: 86px; /* below HUD */
+      left: 2.6rem;
+      font-size:.85rem;
+      font-weight:800;
+      letter-spacing:3px;
+      opacity:.55;
+      text-transform:uppercase;
     }
 
-    .scene-content {
-      max-width: 1200px;
-      width: 100%;
-      z-index: 10;
-      position: relative;
+    /* ------------------------------------------
+       OPENING
+    ------------------------------------------ */
+    .scene-1{
+      background: radial-gradient(700px 400px at 20% 20%, rgba(102,126,234,.55), transparent 60%),
+                  radial-gradient(700px 420px at 80% 40%, rgba(240,147,251,.35), transparent 62%),
+                  linear-gradient(135deg, #1e3c72 0%, #2a5298 45%, #7e22ce 100%);
     }
-
-    /* Opening Scene */
-    .scene-1 {
-      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
-    }
-
-    .opening-title {
+    .opening-title{
       font-size: clamp(3rem, 10vw, 8rem);
-      font-weight: 900;
-      text-align: center;
-      line-height: 1.1;
-      opacity: 0;
-      transform: scale(0.8);
+      font-weight: 950;
+      text-align:center;
+      line-height:1.05;
+      letter-spacing: .02em;
+      opacity:0;
+      transform: scale(.86);
       animation: zoomIn 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      text-shadow: 0 20px 90px rgba(0,0,0,.55);
     }
-
-    .opening-subtitle {
-      text-align: center;
-      font-size: clamp(1.2rem, 3vw, 2rem);
-      margin-top: 2rem;
-      opacity: 0;
+    .opening-subtitle{
+      text-align:center;
+      font-size: clamp(1.1rem, 3vw, 2rem);
+      margin-top: 1.8rem;
+      opacity:0;
       animation: fadeInUp 1s ease 1s forwards;
       font-weight: 300;
       letter-spacing: 2px;
+      color: rgba(255,255,255,.85);
     }
 
-    @keyframes zoomIn {
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
+    .opening-kickers{
+      margin-top: 2rem;
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+      opacity:0;
+      animation: fadeInUp 1s ease 1.25s forwards;
+    }
+    .pill{
+      padding: .75rem 1.1rem;
+      border-radius:999px;
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      font-size:.95rem;
+      color: rgba(255,255,255,.88);
+      backdrop-filter: blur(10px);
     }
 
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-    }
-
-    /* Chapter transitions */
-    .chapter-marker {
-      position: absolute;
-      top: 3rem;
-      left: 3rem;
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 3px;
-      opacity: 0.5;
-      text-transform: uppercase;
-    }
-
-    /* Scene 2 - The Beginning */
-    .scene-2 {
-      background: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-    }
-
-    .story-box {
-      background: rgba(255, 255, 255, 0.05);
+    /* ------------------------------------------
+       GLASS STORY BOX
+    ------------------------------------------ */
+    .story-box{
+      background: var(--glass);
       backdrop-filter: blur(20px);
-      border-radius: 30px;
-      padding: 4rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transform: translateY(100px);
-      opacity: 0;
+      border-radius: var(--r);
+      padding: 3.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transform: translateY(90px);
+      opacity:0;
+      box-shadow: var(--shadow);
     }
-
-    .story-box.visible {
+    .story-box.visible{
       animation: slideUpFade 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
-
-    @keyframes slideUpFade {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .story-year {
+    .story-year{
       font-size: 5rem;
-      font-weight: 900;
-      background: linear-gradient(135deg, #667eea, #f093fb);
-      -webkit-background-clip: text;
+      font-weight: 950;
+      background: var(--grad);
+      -webkit-background-clip:text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 1rem;
+      background-clip:text;
+      margin-bottom:.8rem;
     }
-
-    .story-title {
+    .story-title{
       font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 800;
-      margin-bottom: 1.5rem;
-      line-height: 1.2;
-    }
-
-    .story-text {
-      font-size: clamp(1.1rem, 2vw, 1.4rem);
-      line-height: 1.8;
-      color: rgba(255, 255, 255, 0.85);
-      margin-bottom: 2rem;
-    }
-
-    .story-highlight {
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(240, 147, 251, 0.2));
-      border-left: 4px solid #667eea;
-      padding: 1.5rem 2rem;
-      border-radius: 15px;
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #f093fb;
-      margin-top: 2rem;
-    }
-
-    .story-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .story-tag {
-      padding: 0.8rem 1.5rem;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      font-size: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    /* Scene backgrounds with parallax effect */
-    .scene-3 { background: linear-gradient(180deg, #232526 0%, #414345 100%); }
-    .scene-4 { background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%); }
-    .scene-5 { background: linear-gradient(180deg, #2b5876 0%, #4e4376 100%); }
-    .scene-6 { background: linear-gradient(180deg, #134e5e 0%, #71b280 100%); }
-    .scene-7 { background: linear-gradient(180deg, #4b134f 0%, #c94b4b 100%); }
-
-    /* Floating elements for depth */
-    .floating-element {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.05);
-      filter: blur(60px);
-      pointer-events: none;
-    }
-
-    .float-1 {
-      width: 400px;
-      height: 400px;
-      top: -200px;
-      right: -200px;
-      animation: float1 20s infinite ease-in-out;
-    }
-
-    .float-2 {
-      width: 300px;
-      height: 300px;
-      bottom: -150px;
-      left: -150px;
-      animation: float2 15s infinite ease-in-out;
-    }
-
-    @keyframes float1 {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(-50px, 50px); }
-    }
-
-    @keyframes float2 {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(50px, -50px); }
-    }
-
-    /* Number counters for stats */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-
-    .stat-item {
-      text-align: center;
-      opacity: 0;
-      transform: scale(0.5);
-    }
-
-    .stat-item.visible {
-      animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-
-    @keyframes popIn {
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .stat-number {
-      font-size: 4rem;
       font-weight: 900;
-      background: linear-gradient(135deg, #667eea, #f093fb);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1.3rem;
+      line-height:1.14;
+    }
+    .story-text{
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      line-height: 1.85;
+      color: rgba(255,255,255,.86);
+      margin-bottom: 1.2rem;
     }
 
-    .stat-label {
-      font-size: 1rem;
-      color: rgba(255, 255, 255, 0.7);
+    /* Product Lens: Problem / Approach / Outcome */
+    .lens{
+      margin-top: 1.7rem;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .lens-item{
+      border-radius: 18px;
+      padding: 14px 14px 12px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .lens-k{
+      font-size: 12px;
+      letter-spacing: .2em;
       text-transform: uppercase;
+      opacity: .75;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+    .lens-v{
+      color: rgba(255,255,255,.84);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .story-highlight{
+      background: var(--grad2);
+      border-left: 4px solid rgba(102,126,234,.9);
+      padding: 1.25rem 1.6rem;
+      border-radius: 18px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: rgba(240,147,251,.92);
+      margin-top: 1.5rem;
+    }
+
+    .story-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap: .75rem;
+      margin-top: 1.4rem;
+    }
+    .story-tag{
+      padding: .65rem 1.0rem;
+      background: rgba(255,255,255,.08);
+      border-radius: 999px;
+      font-size: .95rem;
+      border: 1px solid rgba(255,255,255,.18);
+      color: rgba(255,255,255,.85);
+    }
+
+    /* ------------------------------------------
+       STATS
+    ------------------------------------------ */
+    .stats-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.4rem;
+      margin-top: 2rem;
+    }
+    .stat-item{
+      text-align:center;
+      opacity:0;
+      transform: scale(.8);
+      padding: 16px 14px 14px;
+      border-radius: 20px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+    }
+    .stat-item.visible{
+      animation: popIn .7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    .stat-number{
+      font-size: 3.4rem;
+      font-weight: 950;
+      background: var(--grad);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color: transparent;
+      background-clip:text;
+      margin-bottom: .35rem;
+    }
+    .stat-label{
+      font-size: .9rem;
+      color: rgba(255,255,255,.68);
+      text-transform:uppercase;
       letter-spacing: 2px;
     }
 
-    /* Split screen layout for comparison */
-    .split-scene {
-      display: grid;
+    /* ------------------------------------------
+       SPLIT SCENE
+    ------------------------------------------ */
+    .split-scene{
+      display:grid;
       grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      height: 100%;
-      align-items: center;
+      gap: 2.4rem;
+      height:100%;
+      align-items:center;
     }
-
-    .split-side {
-      opacity: 0;
+    .split-side{
+      opacity:0;
       transform: translateX(-50px);
     }
-
-    .split-side.right {
-      transform: translateX(50px);
-    }
-
-    .split-side.visible {
+    .split-side.right{ transform: translateX(50px); }
+    .split-side.visible{
       animation: slideIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
-
-    @keyframes slideIn {
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+    .icon-large{
+      font-size: 5rem;
+      margin-bottom: 1.2rem;
+      display:block;
+      filter: drop-shadow(0 10px 30px rgba(102,126,234,.55));
     }
 
-    .icon-large {
-      font-size: 6rem;
-      margin-bottom: 2rem;
-      display: block;
-      filter: drop-shadow(0 10px 30px rgba(102, 126, 234, 0.5));
+    /* ------------------------------------------
+       MAP PATH (LIFE ACROSS CONTINENTS)
+    ------------------------------------------ */
+    .path{
+      margin-top: 1.5rem;
+      padding: 14px 14px 12px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .path-title{
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: rgba(255,255,255,.75);
+      margin-bottom: 10px;
+    }
+    .path-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+      color: rgba(255,255,255,.88);
+      font-weight: 800;
+    }
+    .node{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.14);
+      backdrop-filter: blur(10px);
+      font-size: 14px;
+    }
+    .spark{
+      width:10px; height:10px; border-radius:50%;
+      background: rgba(240,147,251,.9);
+      box-shadow: 0 0 0 6px rgba(240,147,251,.12);
+    }
+    .arrow{
+      opacity:.6;
+      font-weight:900;
     }
 
-    /* Philosophy scene */
-    .philosophy-scene {
-      text-align: center;
+    /* ------------------------------------------
+       PHILOSOPHY
+    ------------------------------------------ */
+    .scene-6{
+      background: radial-gradient(900px 520px at 20% 30%, rgba(113,178,128,.35), transparent 62%),
+                  radial-gradient(900px 520px at 80% 70%, rgba(102,126,234,.35), transparent 62%),
+                  linear-gradient(180deg, #134e5e 0%, #71b280 100%);
     }
-
-    .philosophy-quote {
+    .philosophy-scene{ text-align:center; }
+    .philosophy-quote{
       font-size: clamp(2rem, 5vw, 4rem);
-      font-weight: 700;
-      line-height: 1.3;
-      margin-bottom: 3rem;
-      opacity: 0;
-      transform: scale(0.9);
+      font-weight: 900;
+      line-height:1.25;
+      margin-bottom: 1.8rem;
+      opacity:0;
+      transform: scale(.92);
+      text-shadow: 0 18px 70px rgba(0,0,0,.45);
     }
-
-    .philosophy-quote.visible {
+    .philosophy-quote.visible{
       animation: zoomIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
+    .philosophy-author{
+      font-size: 1.25rem;
+      color: rgba(255,255,255,.82);
+      font-weight: 350;
+      opacity:0;
+      max-width: 880px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+    .philosophy-author.visible{ animation: fadeInUp 1s ease .4s forwards; }
 
-    .philosophy-author {
-      font-size: 1.5rem;
-      color: rgba(255, 255, 255, 0.7);
-      font-weight: 300;
-      opacity: 0;
+    /* ------------------------------------------
+       CTA
+    ------------------------------------------ */
+    .cta-scene{
+      text-align:center;
+      background: radial-gradient(900px 540px at 30% 30%, rgba(255,255,255,.18), transparent 60%),
+                  linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    }
+    .cta-title{
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      font-weight: 950;
+      margin-bottom: 1.2rem;
+      opacity:0;
+    }
+    .cta-title.visible{ animation: fadeInUp 1s ease forwards; }
+    .cta-buttons{
+      display:flex;
+      gap: 1rem;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top: 2rem;
+      opacity:0;
+    }
+    .cta-buttons.visible{ animation: fadeInUp 1s ease .25s forwards; }
+    .cta-btn{
+      padding: 1.1rem 2.0rem;
+      background: rgba(255,255,255,.95);
+      color:#5b61d6;
+      border-radius: 999px;
+      font-weight: 950;
+      font-size: 1.05rem;
+      transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
+      display:inline-block;
+      box-shadow: 0 12px 40px rgba(0,0,0,.30);
+    }
+    .cta-btn:hover{
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 22px 70px rgba(0,0,0,.38);
+      background:#fff;
+    }
+    .cta-btn.secondary{
+      background: rgba(255,255,255,.14);
+      color:#fff;
+      border: 2px solid rgba(255,255,255,.45);
+      box-shadow: none;
+    }
+    .cta-btn.secondary:hover{
+      background: rgba(255,255,255,.22);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 55px rgba(0,0,0,.25);
     }
 
-    .philosophy-author.visible {
-      animation: fadeInUp 1s ease 0.5s forwards;
+    /* ------------------------------------------
+       FLOATING DEPTH BLOBS
+    ------------------------------------------ */
+    .floating-element{
+      position:absolute;
+      border-radius:50%;
+      background: rgba(255,255,255,.06);
+      filter: blur(70px);
+      pointer-events:none;
     }
+    .float-1{ width:420px; height:420px; top:-220px; right:-220px; animation: float1 18s infinite ease-in-out; }
+    .float-2{ width:320px; height:320px; bottom:-170px; left:-170px; animation: float2 14s infinite ease-in-out; }
 
-    /* Final CTA scene */
-    .cta-scene {
-      text-align: center;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    /* ------------------------------------------
+       PROGRESS + SCROLL INDICATOR
+    ------------------------------------------ */
+    .progress-bar{
+      position:fixed;
+      top:0; left:0;
+      height:3px;
+      background: linear-gradient(90deg, #667eea, #f093fb);
+      z-index:3000;
+      transition: width .25s ease;
     }
-
-    .cta-title {
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      font-weight: 900;
-      margin-bottom: 2rem;
-      opacity: 0;
-    }
-
-    .cta-title.visible {
-      animation: fadeInUp 1s ease forwards;
-    }
-
-    .cta-buttons {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 3rem;
-      opacity: 0;
-    }
-
-    .cta-buttons.visible {
-      animation: fadeInUp 1s ease 0.3s forwards;
-    }
-
-    .cta-btn {
-      padding: 1.5rem 3rem;
-      background: rgba(255, 255, 255, 0.95);
-      color: #667eea;
-      text-decoration: none;
-      border-radius: 50px;
-      font-weight: 700;
-      font-size: 1.2rem;
-      transition: all 0.3s ease;
-      display: inline-block;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .cta-btn:hover {
-      transform: translateY(-5px) scale(1.05);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-      background: #fff;
-    }
-
-    .cta-btn.secondary {
-      background: rgba(255, 255, 255, 0.15);
-      color: #fff;
-      border: 2px solid rgba(255, 255, 255, 0.5);
-    }
-
-    .cta-btn.secondary:hover {
-      background: rgba(255, 255, 255, 0.25);
-    }
-
-    /* Scroll indicator */
-    .scroll-indicator {
+    .scroll-indicator{
       position: fixed;
-      bottom: 2rem;
+      bottom: 1.6rem;
       left: 50%;
       transform: translateX(-50%);
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 0.9rem;
+      color: rgba(255,255,255,.55);
+      font-size: .9rem;
       animation: bounce 2s infinite;
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
+      z-index: 1200;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:.5rem;
+      transition: opacity .25s ease;
+    }
+    .scroll-line{
+      width:2px;
+      height:40px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,.55));
     }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(10px); }
+    /* ------------------------------------------
+       BACKGROUNDS
+    ------------------------------------------ */
+    .scene-2{ background: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%); }
+    .scene-3{ background: linear-gradient(180deg, #232526 0%, #414345 100%); }
+    .scene-4{ background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%); }
+    .scene-5{ background: linear-gradient(180deg, #2b5876 0%, #4e4376 100%); }
+    .scene-7{ background: linear-gradient(180deg, #4b134f 0%, #c94b4b 100%); }
+
+    /* ------------------------------------------
+       ANIMATIONS
+    ------------------------------------------ */
+    @keyframes zoomIn{ to{ opacity:1; transform: scale(1);} }
+    @keyframes fadeInUp{
+      from{ opacity:0; transform: translateY(26px); }
+      to{ opacity:1; transform: translateY(0); }
+    }
+    @keyframes slideUpFade{ to{ opacity:1; transform: translateY(0);} }
+    @keyframes popIn{ to{ opacity:1; transform: scale(1);} }
+    @keyframes slideIn{ to{ opacity:1; transform: translateX(0);} }
+    @keyframes float1{ 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-55px, 55px);} }
+    @keyframes float2{ 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(55px, -55px);} }
+    @keyframes bounce{
+      0%,100%{ transform: translateX(-50%) translateY(0); }
+      50%{ transform: translateX(-50%) translateY(10px); }
     }
 
-    .scroll-line {
-      width: 2px;
-      height: 40px;
-      background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.5));
+    /* ------------------------------------------
+       RESPONSIVE
+    ------------------------------------------ */
+    @media (max-width: 920px){
+      .hud{ border-radius: 18px; padding:10px; }
+      .hud-nav{ display:none; } /* keep it clean on mobile */
+      .chapter-marker{ left: 1.4rem; }
+      .story-box{ padding: 2.2rem; }
+      .split-scene{ grid-template-columns: 1fr; gap: 1.6rem; }
+      .icon-large{ font-size: 4rem; }
+      .story-year{ font-size: 3.2rem; }
+      .lens{ grid-template-columns: 1fr; }
     }
 
-    /* Progress indicator */
-    .progress-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #667eea, #f093fb);
-      z-index: 1000;
-      transition: width 0.3s ease;
+    /* ------------------------------------------
+       REDUCED MOTION (respects OS setting + toggle)
+    ------------------------------------------ */
+    @media (prefers-reduced-motion: reduce){
+      html{ scroll-behavior: auto; }
+      *{ animation: none !important; transition: none !important; }
     }
-
-    /* Mobile responsiveness */
-    @media (max-width: 768px) {
-      .scene {
-        padding: 1.5rem;
-      }
-
-      .story-box {
-        padding: 2rem;
-      }
-
-      .split-scene {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-
-      .chapter-marker {
-        top: 1.5rem;
-        left: 1.5rem;
-        font-size: 0.7rem;
-      }
-
-      .story-year {
-        font-size: 3rem;
-      }
-
-      .icon-large {
-        font-size: 4rem;
-      }
-
-      .cta-btn {
-        width: 100%;
-        max-width: 300px;
-      }
-    }
-
-    /* Smooth scroll */
-    html {
-      scroll-behavior: smooth;
-    }
-
-    /* Hide scroll indicator on last scene */
-    .scene:last-child ~ .scroll-indicator {
-      display: none;
+    body.reduce-motion *{
+      animation: none !important;
+      transition: none !important;
     }
   </style>
 </head>
+
 <body>
   <div class="progress-bar" id="progressBar"></div>
 
+  <!-- HUD -->
+  <div class="hud">
+    <div class="hud-left">
+      <div class="badge">RP</div>
+      <div class="hud-title">Engineer → Product • Adoption-first • AI transformation</div>
+    </div>
+
+    <nav class="hud-nav" aria-label="Quick navigation">
+      <a href="#story">Story</a>
+      <a href="#impact">Impact</a>
+      <a href="#philosophy">Philosophy</a>
+      <a href="#connect">Connect</a>
+    </nav>
+
+    <div class="hud-right">
+      <div class="toggle" id="motionToggle" title="Reduce motion">
+        <span class="dot"></span>
+        <span>Reduce motion</span>
+      </div>
+      <a class="mini-btn" href="https://www.linkedin.com/in/romipadam" target="_blank" rel="noreferrer">LinkedIn</a>
+      <a class="mini-btn primary" href="mailto:romi2410@gmail.com">Email</a>
+    </div>
+  </div>
+
   <!-- Scene 1: Opening -->
-  <section class="scene scene-1">
+  <section class="scene scene-1" id="top">
     <div class="scene-content">
       <h1 class="opening-title">ROMI PADAM</h1>
-      <p class="opening-subtitle">A Journey from Code to Product Leadership</p>
-    </div>
-  </section>
+      <p class="opening-subtitle">A cinematic journey from code to product leadership</p>
 
-  <!-- Scene 2: 2011 - The Beginning -->
-  <section class="scene scene-2">
-    <div class="floating-element float-1"></div>
-    <div class="floating-element float-2"></div>
-    <div class="chapter-marker">Chapter 01</div>
-    <div class="scene-content">
-      <div class="story-box">
-        <div class="story-year">2011</div>
-        <h2 class="story-title">Where It All Began</h2>
-        <p class="story-text">
-          Fresh out of engineering school, I joined ST-Ericsson as a Software Engineer. I built internal tools that automated expense processing and developed scripts that made software configuration faster and error-free.
-        </p>
-        <p class="story-text">
-          This is where I discovered something crucial: the best code isn't the most elegant—it's the code that solves real problems for real people.
-        </p>
-        <div class="story-highlight">
-          ✨ Achieved 100% compliance rate in software testing
-        </div>
+      <div class="opening-kickers" aria-label="Highlights">
+        <span class="pill">AI-driven transformation</span>
+        <span class="pill">Fintech & platforms</span>
+        <span class="pill">Usage & adoption obsessed</span>
+        <span class="pill">Cross-functional leader</span>
       </div>
     </div>
   </section>
 
-  <!-- Scene 3: 2011-2017 - Building Banking Systems -->
-  <section class="scene scene-3">
-    <div class="chapter-marker">Chapter 02</div>
+  <!-- Scene 2: 2011 - The Beginning -->
+  <section class="scene scene-2" id="story">
+    <div class="floating-element float-1"></div>
+    <div class="floating-element float-2"></div>
+    <div class="chapter-marker">Chapter 01</div>
+
     <div class="scene-content">
       <div class="story-box">
-        <div class="story-year">2011-2017</div>
-        <h2 class="story-title">Building the Backbone of Finance</h2>
+        <div class="story-year">2011</div>
+        <h2 class="story-title">Where it began</h2>
+
         <p class="story-text">
-          Joined Tata Consultancy Services and spent 6+ years transforming how banks operate. Started migrating legacy systems to modern platforms, then moved to empowering financial institutions across Latin America with TCS BaNCS core banking solutions.
+          I joined ST-Ericsson as a Software Engineer and built internal tools that automated expense processing and
+          scripts that made software configuration faster and more reliable.
         </p>
         <p class="story-text">
-          I designed fraud management systems, optimized performance, and even co-founded the "COBOL School" to train new engineers. This is where I learned the power of mentorship and cross-functional collaboration.
+          That’s where I learned a guiding truth: the best code isn’t the most elegant — it’s the code that removes friction
+          for real people.
         </p>
+
+        <div class="lens" aria-label="Product lens">
+          <div class="lens-item">
+            <div class="lens-k">Problem</div>
+            <div class="lens-v">Manual workflows caused delays, errors, and rework.</div>
+          </div>
+          <div class="lens-item">
+            <div class="lens-k">Approach</div>
+            <div class="lens-v">Automate repeatable tasks; optimize for reliability.</div>
+          </div>
+          <div class="lens-item">
+            <div class="lens-k">Outcome</div>
+            <div class="lens-v">Faster execution and stronger quality discipline.</div>
+          </div>
+        </div>
+
+        <div class="story-highlight">✨ Achieved 100% compliance rate in software testing</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scene 3: 2011-2017 - Banking Systems -->
+  <section class="scene scene-3" id="impact">
+    <div class="chapter-marker">Chapter 02</div>
+
+    <div class="scene-content">
+      <div class="story-box">
+        <div class="story-year">2011–2017</div>
+        <h2 class="story-title">Building the backbone of finance</h2>
+
+        <p class="story-text">
+          At Tata Consultancy Services, I spent 6+ years modernizing how banks operate — migrating legacy systems and supporting
+          Latin American institutions with core banking solutions.
+        </p>
+        <p class="story-text">
+          I built fraud prevention capabilities, optimized performance, and helped scale the team by creating a “COBOL School”
+          to train new engineers. This phase taught me that impact scales through people, not just features.
+        </p>
+
         <div class="stats-grid">
           <div class="stat-item">
             <div class="stat-number">20%</div>
@@ -514,43 +721,72 @@
             <div class="stat-label">Faster Processing</div>
           </div>
           <div class="stat-item">
-            <div class="stat-number">Zero</div>
+            <div class="stat-number">0</div>
             <div class="stat-label">Defect Density</div>
           </div>
         </div>
+
         <div class="story-tags">
           <span class="story-tag">Core Banking</span>
           <span class="story-tag">Fraud Prevention</span>
           <span class="story-tag">Latin America</span>
-          <span class="story-tag">Leadership</span>
+          <span class="story-tag">Mentorship</span>
         </div>
+
+        <div class="path" aria-label="Life path">
+          <div class="path-title">Places that shaped my product lens</div>
+          <div class="path-row">
+            <span class="node"><span class="spark"></span>India (Haryana → UP → Hyderabad → Bombay)</span>
+            <span class="arrow">→</span>
+            <span class="node"><span class="spark"></span>Ecuador (Quito)</span>
+            <span class="arrow">→</span>
+            <span class="node"><span class="spark"></span>US (Dallas → Charlotte → California)</span>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- Scene 4: 2018-2019 - The Pivot -->
+  <!-- Scene 4: 2018-2019 - Pivot -->
   <section class="scene scene-4">
     <div class="chapter-marker">Chapter 03</div>
+
     <div class="scene-content">
       <div class="split-scene">
         <div class="split-side">
           <span class="icon-large">🎓</span>
-          <h2 class="story-title">Learning to Lead</h2>
+          <h2 class="story-title">Learning to lead</h2>
           <p class="story-text">
-            Pursued my M.S. in Computer Science at UT Dallas while teaching C/C++ programming and mentoring capstone projects.
+            I pursued my M.S. in Computer Science at UT Dallas while teaching C/C++ and mentoring capstone projects.
+            Teaching sharpened how I explain complex systems with clarity.
           </p>
-          <p class="story-text">
-            This is where I refined my ability to break down complex technical concepts and communicate them clearly—a skill that would become invaluable in product leadership.
-          </p>
+
+          <div class="lens">
+            <div class="lens-item">
+              <div class="lens-k">Strength</div>
+              <div class="lens-v">Translate complexity into shared understanding.</div>
+            </div>
+            <div class="lens-item">
+              <div class="lens-k">Habit</div>
+              <div class="lens-v">Build alignment early; ship iteratively.</div>
+            </div>
+            <div class="lens-item">
+              <div class="lens-k">Signal</div>
+              <div class="lens-v">Great teams win through clarity + pace.</div>
+            </div>
+          </div>
         </div>
+
         <div class="split-side right">
           <span class="icon-large">💡</span>
-          <h2 class="story-title">The Product Spark</h2>
+          <h2 class="story-title">The product spark</h2>
           <p class="story-text">
-            Working directly with students and seeing their "aha" moments made me realize something: I loved the intersection of technical depth and user impact.
+            I realized I loved the intersection of technical depth and user impact —
+            not just solving technical problems, but shaping how people experience technology.
           </p>
-          <p class="story-text">
-            I wasn't just solving technical problems anymore—I was shaping how people experienced technology.
+          <p class="story-text" style="color:rgba(255,255,255,.82);">
+            Results-driven. Customer-obsessed. Technically grounded.
           </p>
         </div>
       </div>
@@ -560,59 +796,84 @@
   <!-- Scene 5: 2019-2025 - IBM -->
   <section class="scene scene-5">
     <div class="chapter-marker">Chapter 04</div>
+
     <div class="scene-content">
       <div class="story-box">
-        <div class="story-year">2019-2025</div>
-        <h2 class="story-title">Leading Real-Time Innovation</h2>
+        <div class="story-year">2019–2025</div>
+        <h2 class="story-title">Leading real-time innovation</h2>
+
         <p class="story-text">
-          At IBM, I led the design and development of a NextGen real-time financial transaction platform. This wasn't just about writing code anymore—I was architecting cloud-native systems, leading cross-functional teams, and serving as the SME for settlement operations.
+          At IBM, I helped lead the design and development of a NextGen real-time financial transaction platform —
+          moving from “building systems” to “building outcomes” through platform thinking.
         </p>
         <p class="story-text">
-          I partnered directly with clients to understand their pain points and translated feedback into high-impact product improvements. This is where my engineering background and product thinking truly merged.
+          I partnered with clients to uncover pain points and turn feedback into high-impact improvements —
+          where engineering DNA and product thinking truly merged.
         </p>
-        <div class="story-highlight">
-          🚀 Built scalable platform processing real-time payments for enterprise clients
+
+        <div class="lens">
+          <div class="lens-item">
+            <div class="lens-k">North star</div>
+            <div class="lens-v">Reliability + transparency in real-time flows.</div>
+          </div>
+          <div class="lens-item">
+            <div class="lens-k">Execution</div>
+            <div class="lens-v">Cloud-native architecture, tight feedback loops.</div>
+          </div>
+          <div class="lens-item">
+            <div class="lens-k">Impact</div>
+            <div class="lens-v">Scaled capabilities for enterprise payments use cases.</div>
+          </div>
         </div>
+
+        <div class="story-highlight">🚀 Built scalable platform work supporting real-time payments for enterprise clients</div>
+
         <div class="story-tags">
           <span class="story-tag">Fintech</span>
           <span class="story-tag">Cloud-Native</span>
           <span class="story-tag">Real-Time Systems</span>
-          <span class="story-tag">Product Leadership</span>
+          <span class="story-tag">Stakeholder Leadership</span>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Scene 6: Philosophy -->
-  <section class="scene scene-6">
+  <section class="scene scene-6" id="philosophy">
     <div class="chapter-marker">Philosophy</div>
+
     <div class="scene-content philosophy-scene">
       <div class="philosophy-quote">
-        "The best products aren't the ones with the most features—they're the ones customers can't imagine working without."
+        “The best products aren’t the ones with the most features — they’re the ones customers can’t imagine working without.”
       </div>
       <div class="philosophy-author">
-        That's the bar I hold myself to. I measure success by adoption, not feature count.
+        That’s the standard I build toward. I optimize for <strong>adoption</strong>, not feature count —
+        and I love connecting technical possibility to business value.
       </div>
     </div>
   </section>
 
-  <!-- Scene 7: 2025 - Present -->
+  <!-- Scene 7: 2025 - Oracle -->
   <section class="scene scene-7">
-    <div class="chapter-marker">Chapter 05 - Present</div>
+    <div class="chapter-marker">Chapter 05 — Present</div>
+
     <div class="scene-content">
       <div class="story-box">
-        <div class="story-year">2025</div>
-        <h2 class="story-title">Leading AI Transformation</h2>
+        <div class="story-year">Now</div>
+        <h2 class="story-title">Leading AI transformation</h2>
+
         <p class="story-text">
-          Now at Oracle as Principal Technical Product Manager, I'm leading AI-driven transformation within Oracle Fusion Cloud HCM. Building intelligent workflows that streamline enterprise support, reduce engineering touchpoints, and scale globally.
+          At Oracle, I’m a Principal Technical Product Manager leading AI-driven transformation in Oracle Fusion Cloud HCM —
+          building intelligent workflows that streamline enterprise support and reduce engineering touchpoints at scale.
         </p>
         <p class="story-text">
-          My superpower? I speak fluent "engineer" and "business"—bridging technical feasibility with strategic outcomes. Engineering DNA meets product vision.
+          My superpower: I speak fluent “engineer” and “business” — bridging feasibility and strategy to ship products that matter.
         </p>
+
         <div class="stats-grid">
           <div class="stat-item">
             <div class="stat-number">10+</div>
-            <div class="stat-label">Years Experience</div>
+            <div class="stat-label">Years Building</div>
           </div>
           <div class="stat-item">
             <div class="stat-number">3</div>
@@ -620,79 +881,98 @@
           </div>
           <div class="stat-item">
             <div class="stat-number">∞</div>
-            <div class="stat-label">Impact</div>
+            <div class="stat-label">Curiosity</div>
           </div>
+        </div>
+
+        <div class="story-tags" style="margin-top:1.6rem;">
+          <span class="story-tag">AI automation</span>
+          <span class="story-tag">Enterprise SaaS</span>
+          <span class="story-tag">Product execution</span>
+          <span class="story-tag">Adoption-first</span>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Scene 8: CTA -->
-  <section class="scene cta-scene">
+  <section class="scene cta-scene" id="connect">
     <div class="scene-content">
-      <h2 class="cta-title">Let's Build Something Great Together</h2>
-      <p class="story-text" style="max-width: 700px; margin: 0 auto;">
-        If you're building AI-driven products, tackling complex platform challenges, or want to talk about what makes products truly indispensable—I'd love to connect.
+      <h2 class="cta-title">Let’s build something customers can’t live without</h2>
+
+      <p class="story-text" style="max-width: 780px; margin: 0 auto;">
+        Open to connecting with AI product leaders, innovative teams, and anyone passionate about building products that matter.
+        If you’re tackling AI workflows, platform challenges, or adoption at scale — I’d love to chat.
       </p>
+
       <div class="cta-buttons">
-        <a href="mailto:romi2410@gmail.com" class="cta-btn">📧 Email Me</a>
-        <a href="https://www.linkedin.com/in/romipadam" target="_blank" class="cta-btn secondary">💼 LinkedIn</a>
-        <a href="https://github.com/romi2410" target="_blank" class="cta-btn secondary">💻 GitHub</a>
+        <a href="mailto:romi2410@gmail.com" class="cta-btn">📧 Email</a>
+        <a href="https://www.linkedin.com/in/romipadam" target="_blank" rel="noreferrer" class="cta-btn secondary">💼 LinkedIn</a>
+        <a href="https://github.com/romi2410" target="_blank" rel="noreferrer" class="cta-btn secondary">💻 GitHub</a>
       </div>
     </div>
   </section>
 
-  <div class="scroll-indicator">
+  <div class="scroll-indicator" id="scrollIndicator">
     <span>Scroll to continue</span>
     <div class="scroll-line"></div>
   </div>
 
   <script>
-    // Intersection Observer for animations
-    const observerOptions = {
-      threshold: 0.3,
-      rootMargin: '0px'
-    };
+    // ---------------------------
+    // Reduced motion toggle
+    // ---------------------------
+    const motionToggle = document.getElementById('motionToggle');
+    const saved = localStorage.getItem('reduceMotion');
+    if (saved === '1') {
+      document.body.classList.add('reduce-motion');
+      motionToggle.classList.add('on');
+    }
+    motionToggle.addEventListener('click', () => {
+      const on = document.body.classList.toggle('reduce-motion');
+      motionToggle.classList.toggle('on', on);
+      localStorage.setItem('reduceMotion', on ? '1' : '0');
+    });
+
+    // ---------------------------
+    // Intersection Observer animations
+    // ---------------------------
+    const observerOptions = { threshold: 0.28, rootMargin: '0px' };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const elements = entry.target.querySelectorAll('.story-box, .split-side, .stat-item, .philosophy-quote, .philosophy-author, .cta-title, .cta-buttons');
-          elements.forEach((el, index) => {
-            setTimeout(() => {
-              el.classList.add('visible');
-            }, index * 150);
-          });
-        }
+        if (!entry.isIntersecting) return;
+        const els = entry.target.querySelectorAll(
+          '.story-box, .split-side, .stat-item, .philosophy-quote, .philosophy-author, .cta-title, .cta-buttons'
+        );
+        els.forEach((el, idx) => setTimeout(() => el.classList.add('visible'), idx * 140));
       });
     }, observerOptions);
 
-    document.querySelectorAll('.scene').forEach(scene => {
-      observer.observe(scene);
-    });
+    document.querySelectorAll('.scene').forEach(scene => observer.observe(scene));
 
+    // ---------------------------
     // Progress bar
+    // ---------------------------
     window.addEventListener('scroll', () => {
-      const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrolled = (window.scrollY / windowHeight) * 100;
-      document.getElementById('progressBar').style.width = scrolled + '%';
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = total <= 0 ? 0 : (window.scrollY / total) * 100;
+      document.getElementById('progressBar').style.width = pct + '%';
     });
 
-    // Hide scroll indicator on last section
+    // ---------------------------
+    // Hide scroll indicator on CTA
+    // ---------------------------
     const lastScene = document.querySelector('.cta-scene');
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    
-    const hideIndicatorObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          scrollIndicator.style.opacity = '0';
-        } else {
-          scrollIndicator.style.opacity = '1';
-        }
-      });
-    }, { threshold: 0.5 });
+    const scrollIndicator = document.getElementById('scrollIndicator');
 
-    hideIndicatorObserver.observe(lastScene);
+    const hideObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        scrollIndicator.style.opacity = entry.isIntersecting ? '0' : '1';
+      });
+    }, { threshold: 0.55 });
+
+    hideObserver.observe(lastScene);
   </script>
 </body>
 </html>
