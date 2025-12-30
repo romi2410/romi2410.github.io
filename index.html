@@ -1,161 +1,595 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Romi Padam | Product + AI</title>
-  <meta name="description" content="Principal Product Manager with an engineering background focused on AI-driven automation, platforms, and fintech." />
-  <link rel="stylesheet" href="./assets/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Romi Padam | Product + AI Leader</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #0a0e27;
+      --bg-card: #1a1f3a;
+      --accent-blue: #4a9eff;
+      --accent-purple: #a78bfa;
+      --accent-green: #10b981;
+      --text-primary: #ffffff;
+      --text-secondary: #94a3b8;
+      --timeline-line: #334155;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(74, 158, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .hero .tagline {
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      animation: fadeInUp 1s ease-out 0.2s both;
+    }
+
+    .hero .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      animation: fadeInUp 1s ease-out 0.4s both;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 1s ease-out 0.6s both;
+    }
+
+    .btn {
+      padding: 0.9rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(74, 158, 255, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--timeline-line);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent-blue);
+      transform: translateY(-2px);
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .scroll-indicator::after {
+      content: '↓';
+      display: block;
+      text-align: center;
+      font-size: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .timeline-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .timeline {
+      position: relative;
+      padding: 2rem 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--timeline-line);
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 4rem;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.6s ease;
+    }
+
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content {
+      margin-left: auto;
+      text-align: left;
+    }
+
+    .timeline-item:nth-child(even) .timeline-content {
+      margin-right: auto;
+      text-align: right;
+    }
+
+    .timeline-content {
+      width: calc(50% - 40px);
+      background: var(--bg-card);
+      padding: 2rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+    }
+
+    .timeline-content:hover {
+      transform: scale(1.03);
+      border-color: var(--accent-blue);
+      box-shadow: 0 10px 40px rgba(74, 158, 255, 0.2);
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 50%;
+      top: 30px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      transform: translateX(-50%);
+      z-index: 2;
+      border: 4px solid var(--bg-dark);
+      transition: all 0.3s ease;
+    }
+
+    .timeline-item:hover .timeline-dot {
+      width: 28px;
+      height: 28px;
+      box-shadow: 0 0 20px var(--accent-blue);
+    }
+
+    .timeline-year {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .timeline-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .timeline-company {
+      color: var(--accent-blue);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-role {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .timeline-description {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .timeline-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      justify-content: inherit;
+    }
+
+    .timeline-item:nth-child(even) .timeline-tags {
+      justify-content: flex-end;
+    }
+
+    .tag {
+      background: rgba(74, 158, 255, 0.1);
+      color: var(--accent-blue);
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      border: 1px solid rgba(74, 158, 255, 0.2);
+    }
+
+    .impact-stat {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--accent-green);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .skills-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      padding: 2rem;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+    }
+
+    .skill-card:hover {
+      border-color: var(--accent-blue);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(74, 158, 255, 0.2);
+    }
+
+    .skill-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .skill-title {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .skill-desc {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .contact-section {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 4rem 2rem 6rem;
+      text-align: center;
+    }
+
+    .contact-section p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+      .timeline::before {
+        left: 20px;
+      }
+
+      .timeline-content {
+        width: calc(100% - 60px);
+        margin-left: 60px !important;
+        text-align: left !important;
+      }
+
+      .timeline-dot {
+        left: 20px;
+      }
+
+      .timeline-tags {
+        justify-content: flex-start !important;
+      }
+
+      .timeline-item:nth-child(even) .timeline-content {
+        margin-right: 0;
+      }
+    }
+  </style>
 </head>
-
 <body>
-  <!-- HEADER / INTRO -->
-  <header class="wrap header">
-    <div class="hero">
-      <div>
-        <p class="kicker">Principal Product Manager • AI Product Innovation • Engineering DNA</p>
-        <h1>Romi Padam</h1>
-
-        <p class="subhead">
-          I started as an engineer, fell in love with the power of product, and now lead product strategy and execution
-          with the same passion that got me hooked in the first place.
-        </p>
-
-        <div class="cta">
-          <a class="btn primary" href="./assets/Romi_Padam_Resume.pdf" target="_blank" rel="noreferrer">Resume (PDF)</a>
-          <a class="btn" href="https://www.linkedin.com/in/romipadam" target="_blank" rel="noreferrer">LinkedIn</a>
-          <a class="btn" href="mailto:romi2410@gmail.com">Email</a>
-        </div>
-
-        <div class="meta">
-          <span>📍 San Francisco Bay Area</span>
-          <span class="dot">•</span>
-          <span>AI automation • Enterprise platforms • Fintech</span>
-        </div>
-      </div>
-
-      <div class="card profile">
-        <div class="avatar">RP</div>
-        <div>
-          <h3>Why I’m effective</h3>
-          <ul class="bullets">
-            <li><strong>Technical depth:</strong> I speak engineering and understand what’s feasible.</li>
-            <li><strong>Strategic execution:</strong> I connect product vision to business outcomes.</li>
-            <li><strong>Adoption-focused:</strong> I measure success by usage, not just features.</li>
-            <li><strong>Cross-functional leader:</strong> I align stakeholders to ship products that matter.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:16px; padding:16px;">
-      <p style="margin:0; color:var(--muted); line-height:1.7;">
-        <strong>My philosophy:</strong>
-        The best products aren’t defined by feature count — they’re the ones customers can’t imagine working without.
-        That’s the standard I build toward.
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Romi Padam</h1>
+      <p class="tagline">Engineer → Product Leader → AI Innovator</p>
+      <p class="subtitle">
+        I build products that customers can't imagine working without. 
+        Technical depth meets strategic execution.
       </p>
+      <div class="cta-buttons">
+        <a href="mailto:romi2410@gmail.com" class="btn btn-primary">Let's Connect</a>
+        <a href="https://www.linkedin.com/in/romipadam" target="_blank" class="btn btn-secondary">LinkedIn</a>
+        <a href="#" class="btn btn-secondary">Resume</a>
+      </div>
     </div>
+    <div class="scroll-indicator">Explore my journey</div>
+  </section>
 
-    <div class="card" style="margin-top:12px; padding:16px;">
-      <h3 style="margin:0 0 8px;">Fun fact</h3>
-      <p style="margin:0; color:var(--muted); line-height:1.7;">
-        I’ve lived and worked across <strong>India</strong> (Haryana → UP → Hyderabad → Bombay),
-        <strong>Ecuador</strong> (Quito),
-        and the <strong>U.S.</strong> (Dallas → Charlotte → California).
-        Experiencing different cultures and problem-solving styles has shaped how I think about users,
-        collaboration, and building products that work globally.
-      </p>
+  <section class="timeline-section">
+    <h2 class="section-title">The Journey</h2>
+    <div class="timeline">
+      
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-year">2025 - Present</span>
+          <h3 class="timeline-title">Leading AI Transformation</h3>
+          <p class="timeline-company">Oracle</p>
+          <p class="timeline-role">Principal Technical Product Manager</p>
+          <p class="timeline-description">
+            Driving AI-powered automation within Oracle Fusion Cloud HCM. Leading the charge to streamline enterprise support, reduce engineering touchpoints, and deliver intelligent workflows that scale.
+          </p>
+          <div class="timeline-tags">
+            <span class="tag">AI Automation</span>
+            <span class="tag">Enterprise Platform</span>
+            <span class="tag">Cloud HCM</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-year">2019 - 2025</span>
+          <h3 class="timeline-title">Building NextGen Financial Platforms</h3>
+          <p class="timeline-company">IBM</p>
+          <p class="timeline-role">Senior Engineer Technical Lead</p>
+          <p class="timeline-description">
+            Led design and development of a real-time financial transaction platform using cloud-native architecture. Served as SME for settlement operations, ensuring payment reconciliation accuracy and system balance.
+          </p>
+          <div class="impact-stat">🚀 Built scalable platform for real-time payments</div>
+          <div class="timeline-tags">
+            <span class="tag">Fintech</span>
+            <span class="tag">Cloud-Native</span>
+            <span class="tag">Agile</span>
+            <span class="tag">Real-Time Systems</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-year">2018 - 2019</span>
+          <h3 class="timeline-title">Sharpening Product Thinking</h3>
+          <p class="timeline-company">University of Texas at Dallas</p>
+          <p class="timeline-role">Graduate Teaching Assistant & Project Mentor</p>
+          <p class="timeline-description">
+            Mentored students on software development while completing my Master's in Computer Science. Taught C/C++ programming and guided capstone projects, honing my ability to break down complex problems and communicate technical concepts clearly.
+          </p>
+          <div class="timeline-tags">
+            <span class="tag">Mentorship</span>
+            <span class="tag">Teaching</span>
+            <span class="tag">M.S. Computer Science</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-year">2011 - 2017</span>
+          <h3 class="timeline-title">Engineering Core Banking Solutions</h3>
+          <p class="timeline-company">Tata Consultancy Services</p>
+          <p class="timeline-role">Senior Software Consultant</p>
+          <p class="timeline-description">
+            Empowered financial institutions across Latin America to modernize with TCS BaNCS. Designed fraud prevention systems that reduced fraudulent transactions by 20% and optimized batch processes by 40%.
+          </p>
+          <div class="impact-stat">📊 20% fraud reduction | 40% faster processing</div>
+          <div class="timeline-tags">
+            <span class="tag">Core Banking</span>
+            <span class="tag">Fraud Prevention</span>
+            <span class="tag">Performance Optimization</span>
+            <span class="tag">COBOL</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-year">2011</span>
+          <h3 class="timeline-title">Where It All Began</h3>
+          <p class="timeline-company">ST-Ericsson</p>
+          <p class="timeline-role">Software Engineer</p>
+          <p class="timeline-description">
+            Built internal tools that automated expense processing and software configuration. Achieved 100% compliance rate in software testing. This is where I discovered the impact of solving real user problems.
+          </p>
+          <div class="timeline-tags">
+            <span class="tag">Automation</span>
+            <span class="tag">Internal Tools</span>
+            <span class="tag">First Role</span>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </header>
+  </section>
 
-  <!-- MAIN -->
-  <main class="wrap">
-
-    <!-- CASE STUDIES -->
-    <section class="section">
-      <div class="section-head">
-        <h2>Featured case studies</h2>
-        <p>Outcome-focused work that reflects how I approach product decisions and execution.</p>
+  <section class="skills-section">
+    <h2 class="section-title">What I Bring</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">🎯</div>
+        <h3 class="skill-title">Product Strategy</h3>
+        <p class="skill-desc">Vision to execution, roadmaps that deliver business value</p>
       </div>
-
-      <div class="grid">
-        <a class="card project" href="./projects/oracle-hcm-ai.html">
-          <div class="tag">Oracle</div>
-          <h3>AI-driven support transformation</h3>
-          <p>Automation and intelligent workflows to streamline enterprise support and reduce engineering touchpoints.</p>
-          <div class="foot">View case study →</div>
-        </a>
-
-        <a class="card project" href="./projects/ibm-ftm-nextgen.html">
-          <div class="tag">IBM</div>
-          <h3>NextGen real-time transaction platform</h3>
-          <p>Cloud-native, scalable, resilient platform for real-time financial transactions.</p>
-          <div class="foot">View case study →</div>
-        </a>
-
-        <a class="card project" href="./projects/fraud-and-performance.html">
-          <div class="tag">Core Banking</div>
-          <h3>Fraud prevention & performance optimization</h3>
-          <p>Reduced fraud and improved batch performance with measurable operational impact.</p>
-          <div class="foot">View case study →</div>
-        </a>
+      <div class="skill-card">
+        <div class="skill-icon">🤖</div>
+        <h3 class="skill-title">AI Automation</h3>
+        <p class="skill-desc">Building intelligent workflows that scale</p>
       </div>
-    </section>
-
-    <!-- SKILLS -->
-    <section class="section">
-      <div class="section-head">
-        <h2>Skills snapshot</h2>
+      <div class="skill-card">
+        <div class="skill-icon">⚡</div>
+        <h3 class="skill-title">Technical Depth</h3>
+        <p class="skill-desc">Engineering background, product mindset</p>
       </div>
-
-      <div class="pill-row">
-        <span class="pill">Product strategy</span>
-        <span class="pill">Roadmaps & execution</span>
-        <span class="pill">AI automation</span>
-        <span class="pill">Platform thinking</span>
-        <span class="pill">Cloud-native systems</span>
-        <span class="pill">Payments / Fintech</span>
-        <span class="pill">Stakeholder leadership</span>
+      <div class="skill-card">
+        <div class="skill-icon">🌐</div>
+        <h3 class="skill-title">Platform Thinking</h3>
+        <p class="skill-desc">Cloud-native, scalable, resilient systems</p>
       </div>
-    </section>
-
-    <!-- EDUCATION -->
-    <section class="section">
-      <div class="section-head">
-        <h2>Education</h2>
+      <div class="skill-card">
+        <div class="skill-icon">💳</div>
+        <h3 class="skill-title">Fintech Expertise</h3>
+        <p class="skill-desc">Real-time payments, core banking, compliance</p>
       </div>
-
-      <div class="card" style="padding:16px;">
-        <p style="margin:0; color:var(--muted);">
-          <strong>Bachelor’s Degree in Engineering</strong><br/>
-          University Name • Location
-        </p>
+      <div class="skill-card">
+        <div class="skill-icon">🤝</div>
+        <h3 class="skill-title">Cross-Functional Leadership</h3>
+        <p class="skill-desc">Aligning stakeholders, shipping products that matter</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- CONTACT -->
-    <section class="section">
-      <div class="section-head">
-        <h2>Contact</h2>
-        <p>If you’re building AI-driven or platform products and care about real customer impact, I’d love to connect.</p>
-      </div>
-
-      <div class="cta">
-        <a class="btn primary" href="mailto:romi2410@gmail.com">Email me</a>
-        <a class="btn" href="https://www.linkedin.com/in/romipadam" target="_blank" rel="noreferrer">LinkedIn</a>
-      </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-      <span>© <span id="y"></span> Romi Padam</span>
-      <span class="dot">•</span>
-      <a href="https://github.com/romi2410" target="_blank" rel="noreferrer">GitHub</a>
-    </footer>
-  </main>
+  <section class="contact-section">
+    <h2 class="section-title">Let's Build Something Great</h2>
+    <p>
+      If you're building AI-driven products, tackling complex platform challenges, or just want to talk about what makes products truly indispensable—I'd love to connect.
+    </p>
+    <div class="cta-buttons">
+      <a href="mailto:romi2410@gmail.com" class="btn btn-primary">Email Me</a>
+      <a href="https://www.linkedin.com/in/romipadam" target="_blank" class="btn btn-secondary">LinkedIn</a>
+    </div>
+  </section>
 
   <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
+    const observerOptions = {
+      threshold: 0.2,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.timeline-item').forEach(item => {
+      observer.observe(item);
+    });
+
+    document.querySelectorAll('.timeline-content').forEach(content => {
+      content.addEventListener('click', function() {
+        this.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 200);
+      });
+    });
   </script>
 </body>
 </html>
