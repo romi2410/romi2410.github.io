@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Romi Padam | Product + AI Leader</title>
+  <title>Romi Padam - A Product Journey</title>
   <style>
     * {
       margin: 0;
@@ -11,135 +11,383 @@
       box-sizing: border-box;
     }
 
-    :root {
-      --bg-dark: #0a0e27;
-      --bg-card: #1a1f3a;
-      --accent-blue: #4a9eff;
-      --accent-purple: #a78bfa;
-      --accent-green: #10b981;
-      --text-primary: #ffffff;
-      --text-secondary: #94a3b8;
-      --timeline-line: #334155;
-    }
-
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #000;
+      color: #fff;
       overflow-x: hidden;
     }
 
-    .hero {
-      min-height: 100vh;
+    .scene {
+      height: 100vh;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      position: relative;
       padding: 2rem;
+      overflow: hidden;
+    }
+
+    .scene-content {
+      max-width: 1200px;
+      width: 100%;
+      z-index: 10;
+      position: relative;
+    }
+
+    /* Opening Scene */
+    .scene-1 {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+    }
+
+    .opening-title {
+      font-size: clamp(3rem, 10vw, 8rem);
+      font-weight: 900;
       text-align: center;
-      position: relative;
-      background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+      line-height: 1.1;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: zoomIn 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
 
-    .hero::before {
-      content: '';
+    .opening-subtitle {
+      text-align: center;
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      margin-top: 2rem;
+      opacity: 0;
+      animation: fadeInUp 1s ease 1s forwards;
+      font-weight: 300;
+      letter-spacing: 2px;
+    }
+
+    @keyframes zoomIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+    }
+
+    /* Chapter transitions */
+    .chapter-marker {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(74, 158, 255, 0.1) 0%, transparent 50%);
-      pointer-events: none;
+      top: 3rem;
+      left: 3rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      opacity: 0.5;
+      text-transform: uppercase;
     }
 
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 800px;
+    /* Scene 2 - The Beginning */
+    .scene-2 {
+      background: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
     }
 
-    .hero h1 {
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      font-weight: 800;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    .story-box {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border-radius: 30px;
+      padding: 4rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transform: translateY(100px);
+      opacity: 0;
+    }
+
+    .story-box.visible {
+      animation: slideUpFade 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes slideUpFade {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .story-year {
+      font-size: 5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #667eea, #f093fb);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: fadeInUp 1s ease-out;
+      margin-bottom: 1rem;
     }
 
-    .hero .tagline {
-      font-size: clamp(1.2rem, 3vw, 1.8rem);
-      color: var(--text-secondary);
+    .story-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .story-text {
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.85);
       margin-bottom: 2rem;
-      animation: fadeInUp 1s ease-out 0.2s both;
     }
 
-    .hero .subtitle {
-      font-size: 1.1rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: 2.5rem;
-      animation: fadeInUp 1s ease-out 0.4s both;
+    .story-highlight {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(240, 147, 251, 0.2));
+      border-left: 4px solid #667eea;
+      padding: 1.5rem 2rem;
+      border-radius: 15px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #f093fb;
+      margin-top: 2rem;
+    }
+
+    .story-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .story-tag {
+      padding: 0.8rem 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      font-size: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Scene backgrounds with parallax effect */
+    .scene-3 { background: linear-gradient(180deg, #232526 0%, #414345 100%); }
+    .scene-4 { background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%); }
+    .scene-5 { background: linear-gradient(180deg, #2b5876 0%, #4e4376 100%); }
+    .scene-6 { background: linear-gradient(180deg, #134e5e 0%, #71b280 100%); }
+    .scene-7 { background: linear-gradient(180deg, #4b134f 0%, #c94b4b 100%); }
+
+    /* Floating elements for depth */
+    .floating-element {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+
+    .float-1 {
+      width: 400px;
+      height: 400px;
+      top: -200px;
+      right: -200px;
+      animation: float1 20s infinite ease-in-out;
+    }
+
+    .float-2 {
+      width: 300px;
+      height: 300px;
+      bottom: -150px;
+      left: -150px;
+      animation: float2 15s infinite ease-in-out;
+    }
+
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-50px, 50px); }
+    }
+
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(50px, -50px); }
+    }
+
+    /* Number counters for stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .stat-item {
+      text-align: center;
+      opacity: 0;
+      transform: scale(0.5);
+    }
+
+    .stat-item.visible {
+      animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes popIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .stat-number {
+      font-size: 4rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #667eea, #f093fb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* Split screen layout for comparison */
+    .split-scene {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      height: 100%;
+      align-items: center;
+    }
+
+    .split-side {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+
+    .split-side.right {
+      transform: translateX(50px);
+    }
+
+    .split-side.visible {
+      animation: slideIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .icon-large {
+      font-size: 6rem;
+      margin-bottom: 2rem;
+      display: block;
+      filter: drop-shadow(0 10px 30px rgba(102, 126, 234, 0.5));
+    }
+
+    /* Philosophy scene */
+    .philosophy-scene {
+      text-align: center;
+    }
+
+    .philosophy-quote {
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: scale(0.9);
+    }
+
+    .philosophy-quote.visible {
+      animation: zoomIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .philosophy-author {
+      font-size: 1.5rem;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 300;
+      opacity: 0;
+    }
+
+    .philosophy-author.visible {
+      animation: fadeInUp 1s ease 0.5s forwards;
+    }
+
+    /* Final CTA scene */
+    .cta-scene {
+      text-align: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    }
+
+    .cta-title {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900;
+      margin-bottom: 2rem;
+      opacity: 0;
+    }
+
+    .cta-title.visible {
+      animation: fadeInUp 1s ease forwards;
     }
 
     .cta-buttons {
       display: flex;
-      gap: 1rem;
+      gap: 1.5rem;
       justify-content: center;
       flex-wrap: wrap;
-      animation: fadeInUp 1s ease-out 0.6s both;
+      margin-top: 3rem;
+      opacity: 0;
     }
 
-    .btn {
-      padding: 0.9rem 2rem;
-      border-radius: 8px;
+    .cta-buttons.visible {
+      animation: fadeInUp 1s ease 0.3s forwards;
+    }
+
+    .cta-btn {
+      padding: 1.5rem 3rem;
+      background: rgba(255, 255, 255, 0.95);
+      color: #667eea;
       text-decoration: none;
-      font-weight: 600;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.2rem;
       transition: all 0.3s ease;
-      cursor: pointer;
-      border: none;
-      font-size: 1rem;
+      display: inline-block;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-      color: white;
+    .cta-btn:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      background: #fff;
     }
 
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(74, 158, 255, 0.3);
+    .cta-btn.secondary {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.5);
     }
 
-    .btn-secondary {
-      background: var(--bg-card);
-      color: var(--text-primary);
-      border: 1px solid var(--timeline-line);
+    .cta-btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.25);
     }
 
-    .btn-secondary:hover {
-      border-color: var(--accent-blue);
-      transform: translateY(-2px);
-    }
-
+    /* Scroll indicator */
     .scroll-indicator {
-      position: absolute;
+      position: fixed;
       bottom: 2rem;
       left: 50%;
       transform: translateX(-50%);
-      animation: bounce 2s infinite;
-      color: var(--text-secondary);
+      color: rgba(255, 255, 255, 0.5);
       font-size: 0.9rem;
-    }
-
-    .scroll-indicator::after {
-      content: '↓';
-      display: block;
-      text-align: center;
-      font-size: 1.5rem;
-      margin-top: 0.5rem;
+      animation: bounce 2s infinite;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     @keyframes bounce {
@@ -147,449 +395,304 @@
       50% { transform: translateX(-50%) translateY(10px); }
     }
 
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .scroll-line {
+      width: 2px;
+      height: 40px;
+      background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.5));
     }
 
-    .timeline-section {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 4rem 2rem;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
-      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .timeline {
-      position: relative;
-      padding: 2rem 0;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 50%;
+    /* Progress indicator */
+    .progress-bar {
+      position: fixed;
       top: 0;
-      bottom: 0;
-      width: 3px;
-      background: var(--timeline-line);
-      transform: translateX(-50%);
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #667eea, #f093fb);
+      z-index: 1000;
+      transition: width 0.3s ease;
     }
 
-    .timeline-item {
-      position: relative;
-      margin-bottom: 4rem;
-      opacity: 0;
-      transform: translateY(50px);
-      transition: all 0.6s ease;
-    }
-
-    .timeline-item.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .timeline-item:nth-child(odd) .timeline-content {
-      margin-left: auto;
-      text-align: left;
-    }
-
-    .timeline-item:nth-child(even) .timeline-content {
-      margin-right: auto;
-      text-align: right;
-    }
-
-    .timeline-content {
-      width: calc(50% - 40px);
-      background: var(--bg-card);
-      padding: 2rem;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border: 1px solid transparent;
-    }
-
-    .timeline-content:hover {
-      transform: scale(1.03);
-      border-color: var(--accent-blue);
-      box-shadow: 0 10px 40px rgba(74, 158, 255, 0.2);
-    }
-
-    .timeline-dot {
-      position: absolute;
-      left: 50%;
-      top: 30px;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--accent-blue);
-      transform: translateX(-50%);
-      z-index: 2;
-      border: 4px solid var(--bg-dark);
-      transition: all 0.3s ease;
-    }
-
-    .timeline-item:hover .timeline-dot {
-      width: 28px;
-      height: 28px;
-      box-shadow: 0 0 20px var(--accent-blue);
-    }
-
-    .timeline-year {
-      display: inline-block;
-      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-      color: white;
-      padding: 0.4rem 1rem;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-
-    .timeline-title {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-      color: var(--text-primary);
-    }
-
-    .timeline-company {
-      color: var(--accent-blue);
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .timeline-role {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      margin-bottom: 1rem;
-    }
-
-    .timeline-description {
-      color: var(--text-secondary);
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    .timeline-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 1rem;
-      justify-content: inherit;
-    }
-
-    .timeline-item:nth-child(even) .timeline-tags {
-      justify-content: flex-end;
-    }
-
-    .tag {
-      background: rgba(74, 158, 255, 0.1);
-      color: var(--accent-blue);
-      padding: 0.3rem 0.8rem;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      border: 1px solid rgba(74, 158, 255, 0.2);
-    }
-
-    .impact-stat {
-      background: rgba(16, 185, 129, 0.1);
-      color: var(--accent-green);
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      margin-top: 1rem;
-      font-weight: 600;
-      display: inline-block;
-    }
-
-    .skills-section {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 4rem 2rem;
-      text-align: center;
-    }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    .skill-card {
-      background: var(--bg-card);
-      padding: 2rem;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      border: 1px solid transparent;
-    }
-
-    .skill-card:hover {
-      border-color: var(--accent-blue);
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(74, 158, 255, 0.2);
-    }
-
-    .skill-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .skill-title {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      color: var(--text-primary);
-    }
-
-    .skill-desc {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-    }
-
-    .contact-section {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 4rem 2rem 6rem;
-      text-align: center;
-    }
-
-    .contact-section p {
-      color: var(--text-secondary);
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-      line-height: 1.7;
-    }
-
+    /* Mobile responsiveness */
     @media (max-width: 768px) {
-      .timeline::before {
-        left: 20px;
+      .scene {
+        padding: 1.5rem;
       }
 
-      .timeline-content {
-        width: calc(100% - 60px);
-        margin-left: 60px !important;
-        text-align: left !important;
+      .story-box {
+        padding: 2rem;
       }
 
-      .timeline-dot {
-        left: 20px;
+      .split-scene {
+        grid-template-columns: 1fr;
+        gap: 2rem;
       }
 
-      .timeline-tags {
-        justify-content: flex-start !important;
+      .chapter-marker {
+        top: 1.5rem;
+        left: 1.5rem;
+        font-size: 0.7rem;
       }
 
-      .timeline-item:nth-child(even) .timeline-content {
-        margin-right: 0;
+      .story-year {
+        font-size: 3rem;
       }
+
+      .icon-large {
+        font-size: 4rem;
+      }
+
+      .cta-btn {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Hide scroll indicator on last scene */
+    .scene:last-child ~ .scroll-indicator {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Romi Padam</h1>
-      <p class="tagline">Engineer → Product Leader → AI Innovator</p>
-      <p class="subtitle">
-        I build products that customers can't imagine working without. 
-        Technical depth meets strategic execution.
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Scene 1: Opening -->
+  <section class="scene scene-1">
+    <div class="scene-content">
+      <h1 class="opening-title">ROMI PADAM</h1>
+      <p class="opening-subtitle">A Journey from Code to Product Leadership</p>
+    </div>
+  </section>
+
+  <!-- Scene 2: 2011 - The Beginning -->
+  <section class="scene scene-2">
+    <div class="floating-element float-1"></div>
+    <div class="floating-element float-2"></div>
+    <div class="chapter-marker">Chapter 01</div>
+    <div class="scene-content">
+      <div class="story-box">
+        <div class="story-year">2011</div>
+        <h2 class="story-title">Where It All Began</h2>
+        <p class="story-text">
+          Fresh out of engineering school, I joined ST-Ericsson as a Software Engineer. I built internal tools that automated expense processing and developed scripts that made software configuration faster and error-free.
+        </p>
+        <p class="story-text">
+          This is where I discovered something crucial: the best code isn't the most elegant—it's the code that solves real problems for real people.
+        </p>
+        <div class="story-highlight">
+          ✨ Achieved 100% compliance rate in software testing
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scene 3: 2011-2017 - Building Banking Systems -->
+  <section class="scene scene-3">
+    <div class="chapter-marker">Chapter 02</div>
+    <div class="scene-content">
+      <div class="story-box">
+        <div class="story-year">2011-2017</div>
+        <h2 class="story-title">Building the Backbone of Finance</h2>
+        <p class="story-text">
+          Joined Tata Consultancy Services and spent 6+ years transforming how banks operate. Started migrating legacy systems to modern platforms, then moved to empowering financial institutions across Latin America with TCS BaNCS core banking solutions.
+        </p>
+        <p class="story-text">
+          I designed fraud management systems, optimized performance, and even co-founded the "COBOL School" to train new engineers. This is where I learned the power of mentorship and cross-functional collaboration.
+        </p>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number">20%</div>
+            <div class="stat-label">Fraud Reduction</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">40%</div>
+            <div class="stat-label">Faster Processing</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">Zero</div>
+            <div class="stat-label">Defect Density</div>
+          </div>
+        </div>
+        <div class="story-tags">
+          <span class="story-tag">Core Banking</span>
+          <span class="story-tag">Fraud Prevention</span>
+          <span class="story-tag">Latin America</span>
+          <span class="story-tag">Leadership</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scene 4: 2018-2019 - The Pivot -->
+  <section class="scene scene-4">
+    <div class="chapter-marker">Chapter 03</div>
+    <div class="scene-content">
+      <div class="split-scene">
+        <div class="split-side">
+          <span class="icon-large">🎓</span>
+          <h2 class="story-title">Learning to Lead</h2>
+          <p class="story-text">
+            Pursued my M.S. in Computer Science at UT Dallas while teaching C/C++ programming and mentoring capstone projects.
+          </p>
+          <p class="story-text">
+            This is where I refined my ability to break down complex technical concepts and communicate them clearly—a skill that would become invaluable in product leadership.
+          </p>
+        </div>
+        <div class="split-side right">
+          <span class="icon-large">💡</span>
+          <h2 class="story-title">The Product Spark</h2>
+          <p class="story-text">
+            Working directly with students and seeing their "aha" moments made me realize something: I loved the intersection of technical depth and user impact.
+          </p>
+          <p class="story-text">
+            I wasn't just solving technical problems anymore—I was shaping how people experienced technology.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scene 5: 2019-2025 - IBM -->
+  <section class="scene scene-5">
+    <div class="chapter-marker">Chapter 04</div>
+    <div class="scene-content">
+      <div class="story-box">
+        <div class="story-year">2019-2025</div>
+        <h2 class="story-title">Leading Real-Time Innovation</h2>
+        <p class="story-text">
+          At IBM, I led the design and development of a NextGen real-time financial transaction platform. This wasn't just about writing code anymore—I was architecting cloud-native systems, leading cross-functional teams, and serving as the SME for settlement operations.
+        </p>
+        <p class="story-text">
+          I partnered directly with clients to understand their pain points and translated feedback into high-impact product improvements. This is where my engineering background and product thinking truly merged.
+        </p>
+        <div class="story-highlight">
+          🚀 Built scalable platform processing real-time payments for enterprise clients
+        </div>
+        <div class="story-tags">
+          <span class="story-tag">Fintech</span>
+          <span class="story-tag">Cloud-Native</span>
+          <span class="story-tag">Real-Time Systems</span>
+          <span class="story-tag">Product Leadership</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scene 6: Philosophy -->
+  <section class="scene scene-6">
+    <div class="chapter-marker">Philosophy</div>
+    <div class="scene-content philosophy-scene">
+      <div class="philosophy-quote">
+        "The best products aren't the ones with the most features—they're the ones customers can't imagine working without."
+      </div>
+      <div class="philosophy-author">
+        That's the bar I hold myself to. I measure success by adoption, not feature count.
+      </div>
+    </div>
+  </section>
+
+  <!-- Scene 7: 2025 - Present -->
+  <section class="scene scene-7">
+    <div class="chapter-marker">Chapter 05 - Present</div>
+    <div class="scene-content">
+      <div class="story-box">
+        <div class="story-year">2025</div>
+        <h2 class="story-title">Leading AI Transformation</h2>
+        <p class="story-text">
+          Now at Oracle as Principal Technical Product Manager, I'm leading AI-driven transformation within Oracle Fusion Cloud HCM. Building intelligent workflows that streamline enterprise support, reduce engineering touchpoints, and scale globally.
+        </p>
+        <p class="story-text">
+          My superpower? I speak fluent "engineer" and "business"—bridging technical feasibility with strategic outcomes. Engineering DNA meets product vision.
+        </p>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Years Experience</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Continents</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">∞</div>
+            <div class="stat-label">Impact</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scene 8: CTA -->
+  <section class="scene cta-scene">
+    <div class="scene-content">
+      <h2 class="cta-title">Let's Build Something Great Together</h2>
+      <p class="story-text" style="max-width: 700px; margin: 0 auto;">
+        If you're building AI-driven products, tackling complex platform challenges, or want to talk about what makes products truly indispensable—I'd love to connect.
       </p>
       <div class="cta-buttons">
-        <a href="mailto:romi2410@gmail.com" class="btn btn-primary">Let's Connect</a>
-        <a href="https://www.linkedin.com/in/romipadam" target="_blank" class="btn btn-secondary">LinkedIn</a>
-        <a href="#" class="btn btn-secondary">Resume</a>
-      </div>
-    </div>
-    <div class="scroll-indicator">Explore my journey</div>
-  </section>
-
-  <section class="timeline-section">
-    <h2 class="section-title">The Journey</h2>
-    <div class="timeline">
-      
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-year">2025 - Present</span>
-          <h3 class="timeline-title">Leading AI Transformation</h3>
-          <p class="timeline-company">Oracle</p>
-          <p class="timeline-role">Principal Technical Product Manager</p>
-          <p class="timeline-description">
-            Driving AI-powered automation within Oracle Fusion Cloud HCM. Leading the charge to streamline enterprise support, reduce engineering touchpoints, and deliver intelligent workflows that scale.
-          </p>
-          <div class="timeline-tags">
-            <span class="tag">AI Automation</span>
-            <span class="tag">Enterprise Platform</span>
-            <span class="tag">Cloud HCM</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-year">2019 - 2025</span>
-          <h3 class="timeline-title">Building NextGen Financial Platforms</h3>
-          <p class="timeline-company">IBM</p>
-          <p class="timeline-role">Senior Engineer Technical Lead</p>
-          <p class="timeline-description">
-            Led design and development of a real-time financial transaction platform using cloud-native architecture. Served as SME for settlement operations, ensuring payment reconciliation accuracy and system balance.
-          </p>
-          <div class="impact-stat">🚀 Built scalable platform for real-time payments</div>
-          <div class="timeline-tags">
-            <span class="tag">Fintech</span>
-            <span class="tag">Cloud-Native</span>
-            <span class="tag">Agile</span>
-            <span class="tag">Real-Time Systems</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-year">2018 - 2019</span>
-          <h3 class="timeline-title">Sharpening Product Thinking</h3>
-          <p class="timeline-company">University of Texas at Dallas</p>
-          <p class="timeline-role">Graduate Teaching Assistant & Project Mentor</p>
-          <p class="timeline-description">
-            Mentored students on software development while completing my Master's in Computer Science. Taught C/C++ programming and guided capstone projects, honing my ability to break down complex problems and communicate technical concepts clearly.
-          </p>
-          <div class="timeline-tags">
-            <span class="tag">Mentorship</span>
-            <span class="tag">Teaching</span>
-            <span class="tag">M.S. Computer Science</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-year">2011 - 2017</span>
-          <h3 class="timeline-title">Engineering Core Banking Solutions</h3>
-          <p class="timeline-company">Tata Consultancy Services</p>
-          <p class="timeline-role">Senior Software Consultant</p>
-          <p class="timeline-description">
-            Empowered financial institutions across Latin America to modernize with TCS BaNCS. Designed fraud prevention systems that reduced fraudulent transactions by 20% and optimized batch processes by 40%.
-          </p>
-          <div class="impact-stat">📊 20% fraud reduction | 40% faster processing</div>
-          <div class="timeline-tags">
-            <span class="tag">Core Banking</span>
-            <span class="tag">Fraud Prevention</span>
-            <span class="tag">Performance Optimization</span>
-            <span class="tag">COBOL</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-year">2011</span>
-          <h3 class="timeline-title">Where It All Began</h3>
-          <p class="timeline-company">ST-Ericsson</p>
-          <p class="timeline-role">Software Engineer</p>
-          <p class="timeline-description">
-            Built internal tools that automated expense processing and software configuration. Achieved 100% compliance rate in software testing. This is where I discovered the impact of solving real user problems.
-          </p>
-          <div class="timeline-tags">
-            <span class="tag">Automation</span>
-            <span class="tag">Internal Tools</span>
-            <span class="tag">First Role</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <section class="skills-section">
-    <h2 class="section-title">What I Bring</h2>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <div class="skill-icon">🎯</div>
-        <h3 class="skill-title">Product Strategy</h3>
-        <p class="skill-desc">Vision to execution, roadmaps that deliver business value</p>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">🤖</div>
-        <h3 class="skill-title">AI Automation</h3>
-        <p class="skill-desc">Building intelligent workflows that scale</p>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">⚡</div>
-        <h3 class="skill-title">Technical Depth</h3>
-        <p class="skill-desc">Engineering background, product mindset</p>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">🌐</div>
-        <h3 class="skill-title">Platform Thinking</h3>
-        <p class="skill-desc">Cloud-native, scalable, resilient systems</p>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">💳</div>
-        <h3 class="skill-title">Fintech Expertise</h3>
-        <p class="skill-desc">Real-time payments, core banking, compliance</p>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">🤝</div>
-        <h3 class="skill-title">Cross-Functional Leadership</h3>
-        <p class="skill-desc">Aligning stakeholders, shipping products that matter</p>
+        <a href="mailto:romi2410@gmail.com" class="cta-btn">📧 Email Me</a>
+        <a href="https://www.linkedin.com/in/romipadam" target="_blank" class="cta-btn secondary">💼 LinkedIn</a>
+        <a href="https://github.com/romi2410" target="_blank" class="cta-btn secondary">💻 GitHub</a>
       </div>
     </div>
   </section>
 
-  <section class="contact-section">
-    <h2 class="section-title">Let's Build Something Great</h2>
-    <p>
-      If you're building AI-driven products, tackling complex platform challenges, or just want to talk about what makes products truly indispensable—I'd love to connect.
-    </p>
-    <div class="cta-buttons">
-      <a href="mailto:romi2410@gmail.com" class="btn btn-primary">Email Me</a>
-      <a href="https://www.linkedin.com/in/romipadam" target="_blank" class="btn btn-secondary">LinkedIn</a>
-    </div>
-  </section>
+  <div class="scroll-indicator">
+    <span>Scroll to continue</span>
+    <div class="scroll-line"></div>
+  </div>
 
   <script>
+    // Intersection Observer for animations
     const observerOptions = {
-      threshold: 0.2,
-      rootMargin: '0px 0px -100px 0px'
+      threshold: 0.3,
+      rootMargin: '0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+          const elements = entry.target.querySelectorAll('.story-box, .split-side, .stat-item, .philosophy-quote, .philosophy-author, .cta-title, .cta-buttons');
+          elements.forEach((el, index) => {
+            setTimeout(() => {
+              el.classList.add('visible');
+            }, index * 150);
+          });
         }
       });
     }, observerOptions);
 
-    document.querySelectorAll('.timeline-item').forEach(item => {
-      observer.observe(item);
+    document.querySelectorAll('.scene').forEach(scene => {
+      observer.observe(scene);
     });
 
-    document.querySelectorAll('.timeline-content').forEach(content => {
-      content.addEventListener('click', function() {
-        this.style.transform = 'scale(1.05)';
-        setTimeout(() => {
-          this.style.transform = '';
-        }, 200);
-      });
+    // Progress bar
+    window.addEventListener('scroll', () => {
+      const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = (window.scrollY / windowHeight) * 100;
+      document.getElementById('progressBar').style.width = scrolled + '%';
     });
+
+    // Hide scroll indicator on last section
+    const lastScene = document.querySelector('.cta-scene');
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    
+    const hideIndicatorObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          scrollIndicator.style.opacity = '0';
+        } else {
+          scrollIndicator.style.opacity = '1';
+        }
+      });
+    }, { threshold: 0.5 });
+
+    hideIndicatorObserver.observe(lastScene);
   </script>
 </body>
 </html>
