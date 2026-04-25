@@ -11,7 +11,7 @@
  * Do NOT commit your real Gmail address into a public GitHub repo.
  */
 
-const RECIPIENT_EMAIL = "YOUR_PRIVATE_GMAIL_HERE";
+const RECIPIENT_EMAIL = "romi2410@gmail.com";
 const SUBJECT_PREFIX = "Portfolio Contact";
 
 function doPost(e) {
